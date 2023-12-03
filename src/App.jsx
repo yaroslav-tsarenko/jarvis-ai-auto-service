@@ -1,4 +1,6 @@
 import send from './assets/send.svg'
+import camera from './assets/camera.svg'
+import microphone from './assets/microphone.svg'
 import {useState, useEffect} from 'react'
 import "./App.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -45,6 +47,7 @@ const App = () => {
     const handleClick = (uniqueTitle) => {
         setCurrentTitle(uniqueTitle)
     }
+
 
     const getMessages = async () => {
         const options = {
@@ -126,7 +129,19 @@ const App = () => {
                 <div className="bottom-section">
                     <div className="input-container">
                         <input value={value} onChange={(e) => setValue(e.target.value)}/>
+
                         <div
+                            className="camera-button"
+                            id="camera">
+                            <img src={camera} alt="camera"/>
+                        </div>
+                        <div
+                            className="use-mic-button"
+                            id="use-mic">
+                            <img src={microphone} alt="microphone"/>
+                        </div>
+                        <div
+                            className="submit-button"
                             id="submit"
                             onClick={getMessages}>
                             <img src={send} alt=""/>
