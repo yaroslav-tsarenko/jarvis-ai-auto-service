@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react'
 import "./App.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faTimes} from "@fortawesome/free-solid-svg-icons";
+import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 
 const App = () => {
     const [value, setValue] = useState(null)
@@ -12,11 +13,34 @@ const App = () => {
     const [previousChats, setPreviousChats] = useState([])
     const [currentTitle, setCurrentTitle] = useState([])
     const [isSidebarOpen, setIsSidebarOpen] = useState([])
+    const [isTextTransparent, setIsTextTransparent] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+    const {
+        transcript,
+        resetTranscript,
+        listening,
+        browserSupportsSpeechRecognition,
+    } = useSpeechRecognition();
 
+    if (!browserSupportsSpeechRecognition) {
+        console.error("Browser doesn't support speech recognition.");
+    }
+    const handleStartListening = () => {
+        SpeechRecognition.startListening({continuous: true, language: 'en-IN'});
+    };
+
+
+    const handleStopListening = () => {
+        SpeechRecognition.stopListening();
+        setValue(transcript); // Update the state with the transcript
+        resetTranscript();
+    };
 
     useEffect(() => {
         const handleSwipe = (e) => {
@@ -47,9 +71,25 @@ const App = () => {
     const handleClick = (uniqueTitle) => {
         setCurrentTitle(uniqueTitle)
     }
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            getMessages();
+            setIsTextTransparent(true);
+            setTimeout(() => {
+                setValue('')
+                setIsTextTransparent(false)
+            }, 2000)
+        }
+    };
 
 
     const getMessages = async () => {
+        setIsLoading(true); // Start loading
+        if (value === "What is the freight") {
+            setMessage({content: "Freight is the way of logistic"});
+            return;
+        }
         const options = {
             method: "POST",
             body: JSON.stringify({
@@ -70,6 +110,7 @@ const App = () => {
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
+        setIsLoading(false);
     };
 
 
@@ -107,7 +148,8 @@ const App = () => {
             <section className={`side-bar ${isSidebarOpen ? 'open' : ''}`}>
                 <button onClick={createNewChat}>New chat</button>
                 <ul className="history">
-                    {uniqueTitles?.map((uniqueTitle, index) => <li key={index} onClick={() => handleClick(uniqueTitle)}>{uniqueTitle}</li>)}
+                    {uniqueTitles?.map((uniqueTitle, index) => <li key={index}
+                                                                   onClick={() => handleClick(uniqueTitle)}>{uniqueTitle}</li>)}
                 </ul>
                 <nav>
                     <p>
@@ -115,8 +157,8 @@ const App = () => {
                     </p>
                 </nav>
             </section>
-            <button  className={`open-close-sidebar ${isSidebarOpen ? 'move-right' : ''}`} onClick={toggleSidebar}>
-                {isSidebarOpen ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
+            <button className={`open-close-sidebar ${isSidebarOpen ? 'move-right' : ''}`} onClick={toggleSidebar}>
+                {isSidebarOpen ? <FontAwesomeIcon icon={faTimes}/> : <FontAwesomeIcon icon={faBars}/>}
             </button>
             <section className="main">
                 {!currentTitle && <h1>Jarvis Assistant</h1>}
@@ -126,10 +168,15 @@ const App = () => {
                         <p>{chatMessage.content}</p>
                     </li>)}
                 </ul>
+                <div className="loader">{isLoading ?  <span>Jarvis is typing.<span>.</span><span>.</span></span> : ''}</div>
+
                 <div className="bottom-section">
                     <div className="input-container">
-                        <input value={value} onChange={(e) => setValue(e.target.value)}/>
-
+                        <input
+                            value={transcript || value}
+                            onKeyPress={handleKeyPress}
+                            onChange={(e) => setValue(e.target.value)}
+                            style={{color: isTextTransparent ? 'transparent' : 'inherit'}}/>
                         <div
                             className="camera-button"
                             id="camera">
@@ -137,6 +184,8 @@ const App = () => {
                         </div>
                         <div
                             className="use-mic-button"
+                            onMouseDown={handleStartListening}
+                            onMouseUp={handleStopListening}
                             id="use-mic">
                             <img src={microphone} alt="microphone"/>
                         </div>
