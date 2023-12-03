@@ -1,7 +1,7 @@
 import send from './assets/send.svg'
 import camera from './assets/camera.svg'
 import microphone from './assets/microphone.svg'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import "./App.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faTimes} from "@fortawesome/free-solid-svg-icons";
@@ -15,8 +15,7 @@ const App = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState([])
     const [isTextTransparent, setIsTextTransparent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-
+    const submitButton = useRef(null);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -71,8 +70,17 @@ const App = () => {
     const handleClick = (uniqueTitle) => {
         setCurrentTitle(uniqueTitle)
     }
+
+    const clickedSubmitButton = () => {
+        setIsTextTransparent(true);
+        setTimeout(() => {
+            setValue('')
+            setIsTextTransparent(false)
+        }, 2000)
+    }
+
     const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' || event.key === submitButton) {
             event.preventDefault();
             getMessages();
             setIsTextTransparent(true);
@@ -85,7 +93,7 @@ const App = () => {
 
 
     const getMessages = async () => {
-        setIsLoading(true); // Start loading
+        setIsLoading(true);
         if (value === "What is the freight") {
             setMessage({content: "Freight is the way of logistic"});
             return;
@@ -111,6 +119,7 @@ const App = () => {
             console.error('Error fetching messages:', error);
         }
         setIsLoading(false);
+        clickedSubmitButton();
     };
 
 
@@ -168,7 +177,8 @@ const App = () => {
                         <p>{chatMessage.content}</p>
                     </li>)}
                 </ul>
-                <div className="loader">{isLoading ?  <span>Jarvis is typing.<span>.</span><span>.</span></span> : ''}</div>
+                <div className="loader">{isLoading ?
+                    <span>Jarvis is typing.<span>.</span><span>.</span></span> : ''}</div>
 
                 <div className="bottom-section">
                     <div className="input-container">
