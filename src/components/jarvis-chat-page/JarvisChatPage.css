@@ -1,0 +1,317 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    background: rgb(3, 0, 31);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.App {
+    min-height: 100vh;
+    display: flex;
+}
+
+.sideBar {
+    flex: 3;
+    border-right: 1px solid rgb(100, 100, 100)
+}
+
+.main {
+    flex: 9;
+}
+
+.logo {
+    margin-right: 1rem;
+}
+
+.brand {
+    font-size: 2rem;
+}
+
+.upperSide {
+    padding: 2.5rem;
+    border-bottom: 1px solid rgb(100, 100, 100);
+    height: 70%;
+}
+
+.upperSideTop {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+}
+
+.addBtn {
+    height: 2rem;
+}
+
+.midBtn {
+    background: #5A4BFF;
+    border: none;
+    color: white;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    width: 25rem;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+}
+
+.bottom-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    align-content: space-between;
+    width: 100%;
+    max-width: 650px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
+    rgba(0, 0, 0, 0.05) 0 -12px 30px,
+    rgba(0, 0, 0, 0.05) 0 4px 6px,
+    rgba(0, 0, 0, 0.05) 0 12px 3px,
+    rgba(0, 0, 0, 0.05) 0 -3px 3px;
+    border-radius: 10px;
+}
+
+input {
+    width: 100%;
+    height: 5vh;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    padding: 0 15px;
+    background: none;
+
+}
+
+.submit-button {
+    position: relative;
+    cursor: pointer;
+    margin: 0 10px 0 15px;
+    padding: 3px 0 0 0;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+}
+
+
+
+.camera-button {
+    position: relative;
+    padding: 3px 0 0 0;
+    cursor: pointer;
+    margin: 0 0 0 15px;
+}
+
+.use-mic-button {
+    position: relative;
+    padding: 3px 0 0 0;
+    cursor: pointer;
+    margin: 0 0 0 15px;
+
+
+
+}
+
+input:focus {
+    position: relative;
+    cursor: pointer;
+}
+
+
+.app.sidebar-closed .side-bar {
+    transform: translateX(-100%);
+}
+
+.app.sidebar-closed .main {
+    margin-left: 0;
+}
+
+.side-bar {
+    transition: transform 0.3s ease;
+    width: 250px; /* Adjust as needed */
+}
+
+.main {
+    transition: margin-left 0.3s ease;
+}
+
+.open {
+    transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+    .side-bar {
+        position: fixed;
+        z-index: 1; /* Make sure sidebar overlays main content on mobile */
+    }
+
+    .app.sidebar-closed .main {
+        margin-left: 0; /* On mobile, the main content should not move */
+    }
+}
+
+.loader span {
+    opacity: 0; /* Start with dots invisible */
+    animation: dotFadeIn 1.5s infinite; /* Animation applied to each dot */
+}
+
+.loader span:nth-child(2) {
+    animation-delay: 0.5s; /* Delay for second dot */
+}
+
+.loader span:nth-child(3) {
+    animation-delay: 1s; /* Delay for third dot */
+}
+
+@keyframes dotFadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    background-color: #343541;
+    display: flex;
+}
+
+
+.side-bar {
+    background-color: #202123;
+    height: 100vh;
+    width: 244px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+button {
+    border: solid 1px rgba(255, 255, 255, 0.5);
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+nav {
+    border-top: solid 1px rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    margin: 10px;
+}
+
+.main {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+
+}
+
+.history {
+    padding: 10px;
+    margin: 10px;
+    height: 100%;
+}
+
+.history li {
+    list-style-type: none;
+    padding: 15px 0;
+    cursor: pointer;
+}
+
+.info {
+    color: rgba(255, 255, 255, 1);
+    font-size: 11px;
+    padding: 10px;
+}
+
+.feed {
+    overflow: scroll;
+    width: 100%;
+    max-width: 800px;
+    padding: 0;
+}
+
+.feed::-webkit-scrollbar {
+    background-color: rgba(255, 255, 255, 0);
+    width: 0;
+}
+
+.feed li {
+    display: flex;
+    background-color: #444654;
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.feed p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    text-align: left;
+}
+
+.feed p.role {
+    min-width: 100px;
+}
+
+
+
+.main {
+    transition: width 0.3s ease-in-out;
+}
+
+.main.expanded {
+    width: calc(100% - 0px);
+}
+
+.open-close-sidebar{
+    border: none;
+    position: absolute;
+
+}
+
+.open-close-sidebar {
+    transition: transform 0.3s ease-in-out;
+}
+
+.open-close-sidebar.move-right {
+    transform: translateX(250px);
+}
+
+
