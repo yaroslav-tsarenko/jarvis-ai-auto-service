@@ -1,0 +1,2 @@
+Google Client ID = 510644109835-2cmcgd431ia2uhbhdv4suitadmgih8vp.apps.googleusercontent.com
+Client Secret = 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

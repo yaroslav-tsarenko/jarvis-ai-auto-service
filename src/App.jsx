@@ -9,7 +9,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route exact path="/jarvis-chat" element={<JarvisChatPage/>}/>
+                <Route path="/jarvis-chat" element={<JarvisChatPage/>}/>
                 <Route path="/sign-in" element={<LoginForm/>}/>
                 <Route path="/" element={<SignUpForm/>}/>
             </Routes>

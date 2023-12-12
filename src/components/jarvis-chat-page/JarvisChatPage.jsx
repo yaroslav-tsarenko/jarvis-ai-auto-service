@@ -3,9 +3,11 @@ import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faTimes} from "@fortawesome/free-solid-svg-icons";
 import camera from "../../assets/camera.svg";
+import {useParams} from "react-router-dom";
 import microphone from "../../assets/microphone.svg";
 import send from "../../assets/send.svg";
 import "./JarvisChatPage.css";
+import axios from 'axios';
 
 const JarvisChatPage = () => {
     const [value, setValue] = useState(null)
@@ -16,7 +18,22 @@ const JarvisChatPage = () => {
     const [isTextTransparent, setIsTextTransparent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const submitButton = useRef(null);
+    const { userId } = useParams();
+    const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        axios.get('http://localhost:8080/user/' + userId)
+            .then(response => {
+                if (response.data.status === "Success") {
+                    setUser(response.data.user);
+                } else {
+                    console.error('Error fetching user data:', response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during fetching user data:', error);
+            });
+    }, [userId]);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -170,7 +187,7 @@ const JarvisChatPage = () => {
                 {isSidebarOpen ? <FontAwesomeIcon icon={faTimes}/> : <FontAwesomeIcon icon={faBars}/>}
             </button>
             <section className="main">
-                {!currentTitle && <h1>Jarvis Assistant</h1>}
+                {!currentTitle && user && <h1>Hello {user.name}, nice to meet you!</h1>}
                 <ul className="feed">
                     {currentChat?.map((chatMessage, index) => <li key={index}>
                         <p className={"role"}>{chatMessage.role}</p>

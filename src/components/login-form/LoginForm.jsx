@@ -3,6 +3,9 @@ import "./LoginForm.css";
 import axios from 'axios';
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import {GoogleLogin} from '@react-oauth/google';
+import {jwtDecode} from 'jwt-decode';
+
 
 function LoginForm() {
 
@@ -12,22 +15,41 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/sign-in', { email, password })
+        axios.post('http://localhost:8080/sign-in', {email, password})
             .then(result => {
-                console.log(result);
-                // Assuming the successful response is an object with a status key
                 if (result.data.status === "Success") {
+                    // Redirect to the 'jarvis-chat' page upon successful login
                     navigate('/jarvis-chat');
                 } else {
-                    // Handle the situation where login is not successful
-                    console.error('Login failed:', result.data);
+                    console.error('Login failed:', result.data.message);
                 }
             })
             .catch(err => {
-                // Handle the error properly
                 console.error('Error during login:', err);
+                window.alert('Error during login');
             });
     };
+
+    const handleGoogleLoginSuccess = (credentialResponse) => {
+        const credential = credentialResponse.credential;
+        const decoded = jwtDecode(credential); // Decode the JWT token
+        // Send the token to the backend
+        axios.post('http://localhost:8080/google-login', {token: credential})
+            .then(response => {
+                if (response.data.status === "Success") {
+                    // Redirect to the 'jarvis-chat' page upon successful login
+                    navigate('/jarvis-chat');
+                } else {
+                    // Handle any error situations here (e.g., user not saved)
+                    console.error('Login failed:', response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during login:', error);
+            });
+        console.log(decoded)
+    };
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -57,14 +79,21 @@ function LoginForm() {
                                     />
                                 </div>
                                 <Link to="/">I don't have account</Link>
-                                <button type="submit" className="btn btn-primary">Submit</button>
+                                <button type="submit" className="btn btn-primary">Submit</button><h2>Login Page</h2>
+                                <GoogleLogin
+                                    onSuccess={handleGoogleLoginSuccess}
+                                    onError={() => {
+                                        console.log("Login Failed");
+                                    }}
+                                />
                             </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     )
-};
+}
 
 export default LoginForm;

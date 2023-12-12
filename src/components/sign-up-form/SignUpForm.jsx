@@ -6,19 +6,27 @@ import {useNavigate} from "react-router-dom";
 
 function SignUpForm() {
     const [name, setName] = useState(null)
+    const [secondName, setSecondName] = useState(null)
+    const [phoneNumber, setPhoneNumber] = useState(null)
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const navigate = useNavigate()
     const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.post('http://localhost:3001/sign-up', {name, email, password})
+        e.preventDefault();
+        axios.post('http://localhost:8080/sign-up', {name, secondName, phoneNumber, email, password})
             .then(result => {
-                console.log(result)
-                navigate('/sign-in')
+                if (result.data.status === "Success") {
+                    // Redirect to the login form
+                    navigate('/sign-in');
+                } else {
+                    console.error('Registration failed:', result.data.message);
+                }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.error('Error during registration:', err);
+            });
+    };
 
-    }
     return (
         <div className="container mt-5">
             <div className="row">
@@ -36,6 +44,28 @@ function SignUpForm() {
                                         id="name"
                                         required
                                         onChange={(e) => setName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="second-name" className="label-text">Second Name</label>
+                                    <input
+                                        type="text"
+                                        autoComplete="off"
+                                        className="form-control"
+                                        id="name"
+                                        required
+                                        onChange={(e) => setSecondName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="phone-number" className="label-text">Phone Number</label>
+                                    <input
+                                        type="text"
+                                        autoComplete="off"
+                                        className="form-control"
+                                        id="name"
+                                        required
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
                                     />
                                 </div>
                                 <div className="mb-3">
