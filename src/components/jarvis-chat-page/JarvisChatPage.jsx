@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useNavigate} from "react-router-dom";
 import {faBars, faTimes} from "@fortawesome/free-solid-svg-icons";
 import camera from "../../assets/camera.svg";
 import {useParams} from "react-router-dom";
@@ -18,22 +19,43 @@ const JarvisChatPage = () => {
     const [isTextTransparent, setIsTextTransparent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const submitButton = useRef(null);
-    const { userId } = useParams();
+    const {personalEndpoint} = useParams();
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+    const [chatHistory, setChatHistory] = useState([]); // Add this line
 
     useEffect(() => {
-        axios.get('http://localhost:8080/user/' + userId)
+        // Fetch user information from the server using the personalEndpoint
+        axios.get(`http://localhost:8080/user/${personalEndpoint}`)
             .then(response => {
-                if (response.data.status === "Success") {
-                    setUser(response.data.user);
+                if (response.data && response.status === 200) {
+                    setUser(response.data); // Set the user data in state
                 } else {
-                    console.error('Error fetching user data:', response.data.message);
+                    console.error('User not found');
+                    // Handle user not found case
                 }
             })
             .catch(error => {
-                console.error('Error during fetching user data:', error);
+                console.error('Error fetching user data:', error);
+                // Handle error case
             });
-    }, [userId]);
+
+        // Fetch chat history from the server using the personalEndpoint
+        axios.get(`http://localhost:8080/chat-history/${personalEndpoint}`)
+            .then(response => {
+                if (response.data && response.status === 200) {
+                    setPreviousChats(response.data.chats); // Set the chat history in state
+                } else {
+                    console.error('Chat history not found');
+                    // Handle chat history not found case
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching chat history:', error);
+                // Handle error case
+            });
+    }, [personalEndpoint]);
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -85,7 +107,11 @@ const JarvisChatPage = () => {
     }
 
     const handleClick = (uniqueTitle) => {
-        setCurrentTitle(uniqueTitle)
+        if (uniqueTitle === 'All Chat History') {
+            setCurrentTitle(null);
+        } else {
+            setCurrentTitle(uniqueTitle);
+        }
     }
 
     const clickedSubmitButton = () => {
@@ -109,6 +135,36 @@ const JarvisChatPage = () => {
     };
 
 
+    /*const getMessages = async () => {
+        setIsLoading(true);
+        if (value === "What is the freight") {
+            setMessage({content: "Freight is the way of logistic"});
+            return;
+        }
+        const options = {
+            method: "POST",
+            body: JSON.stringify({
+                message: value
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        try {
+            const response = await fetch("https://jarvis-ai-logistic-server.onrender.com/completions", options);
+            const data = await response.json();
+            if (response.ok && data.choices && data.choices.length > 0) {
+                setMessage(data.choices[0].message);
+            } else {
+                console.error('No choices available or bad response:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+        setIsLoading(false);
+        clickedSubmitButton();
+    };*/
+
     const getMessages = async () => {
         setIsLoading(true);
         if (value === "What is the freight") {
@@ -129,6 +185,30 @@ const JarvisChatPage = () => {
             const data = await response.json();
             if (response.ok && data.choices && data.choices.length > 0) {
                 setMessage(data.choices[0].message);
+
+                // Save the user's message in the database
+                axios.post('http://localhost:8080/chat-history', {
+                    userName: user.name,
+                    userEndpoint: personalEndpoint,
+                    chat: {
+                        role: 'You',
+                        content: value
+                    }
+                }).catch(err => {
+                    console.error('Error saving chat history:', err);
+                });
+
+                // Save the assistant's response in the database
+                axios.post('http://localhost:8080/chat-history', {
+                    userName: user.name,
+                    userEndpoint: personalEndpoint,
+                    chat: {
+                        role: 'Assistant',
+                        content: data.choices[0].message.content
+                    }
+                }).catch(err => {
+                    console.error('Error saving chat history:', err);
+                });
             } else {
                 console.error('No choices available or bad response:', data);
             }
@@ -169,25 +249,31 @@ const JarvisChatPage = () => {
     console.log(uniqueTitles)
     console.log(previousChats)
 
+    const handleLogout = () => {
+        setUser(null); // Clear the user data from the state
+        navigate('/sign-in'); // Navigate to the login form
+    };
+
     return (
         <div className={`app ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
             <section className={`side-bar ${isSidebarOpen ? 'open' : ''}`}>
                 <button onClick={createNewChat}>New chat</button>
                 <ul className="history">
                     {uniqueTitles?.map((uniqueTitle, index) => <li key={index}
-                                                                   onClick={() => handleClick(uniqueTitle)}>{uniqueTitle}</li>)}
+                                                                   onClick={() => handleClick(uniqueTitle)}>{uniqueTitle} All Chat History </li>)}
                 </ul>
                 <nav>
                     <p>
                         Made by HaulDepot
                     </p>
                 </nav>
+                <button className="logout-button" onClick={handleLogout}>Logout</button>
             </section>
             <button className={`open-close-sidebar ${isSidebarOpen ? 'move-right' : ''}`} onClick={toggleSidebar}>
                 {isSidebarOpen ? <FontAwesomeIcon icon={faTimes}/> : <FontAwesomeIcon icon={faBars}/>}
             </button>
             <section className="main">
-                {!currentTitle && user && <h1>Hello {user.name}, nice to meet you!</h1>}
+                {!currentTitle && user && <h1 className="greeting">Hello {user.name}, nice to meet you!👋</h1>}
                 <ul className="feed">
                     {currentChat?.map((chatMessage, index) => <li key={index}>
                         <p className={"role"}>{chatMessage.role}</p>

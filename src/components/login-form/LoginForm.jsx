@@ -15,11 +15,14 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/sign-in', {email, password})
+        axios.post('http://localhost:8080/sign-in', { email, password })
             .then(result => {
                 if (result.data.status === "Success") {
-                    // Redirect to the 'jarvis-chat' page upon successful login
-                    navigate('/jarvis-chat');
+                    // Retrieve the user's personal endpoint from the response
+                    const personalEndpoint = result.data.user.personalEndpoint;
+
+                    // Redirect to '/jarvis-chat' + personalEndpoint
+                    navigate(`/jarvis-chat/${personalEndpoint}`);
                 } else {
                     console.error('Login failed:', result.data.message);
                 }
@@ -30,7 +33,7 @@ function LoginForm() {
             });
     };
 
-    const handleGoogleLoginSuccess = (credentialResponse) => {
+   /* const handleGoogleLoginSuccess = (credentialResponse) => {
         const credential = credentialResponse.credential;
         const decoded = jwtDecode(credential); // Decode the JWT token
         // Send the token to the backend
@@ -48,7 +51,27 @@ function LoginForm() {
                 console.error('Error during login:', error);
             });
         console.log(decoded)
+    };*/
+
+    const handleGoogleLoginSuccess = (credentialResponse) => {
+        const credential = credentialResponse.credential;
+        const decoded = jwtDecode(credential);
+
+        axios.post('http://localhost:8080/google-login', { token: credential })
+            .then(response => {
+                if (response.data.status === "Success") {
+                    const personalEndpoint = response.data.user.personalEndpoint;
+                    navigate(`/jarvis-chat/${personalEndpoint}`);
+                } else {
+                    console.error('Login failed:', response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during login:', error);
+            });
+        console.log(decoded)
     };
+
 
     return (
         <div className="container mt-5">

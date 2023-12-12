@@ -38,6 +38,7 @@
     "react-scripts": "5.0.1",
     "react-speech-recognition": "^3.10.0",
     "react-use-clipboard": "^1.0.9",
+    "shortid": "^2.2.16",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
