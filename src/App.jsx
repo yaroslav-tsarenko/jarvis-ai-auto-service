@@ -10,7 +10,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/user/:personalEndpoint" element={<UserPage/>} />
-                <Route path="/jarvis-chat/:personalEndpoint" element={<JarvisChatPage />} />
+                <Route path="/jarvis-chat/:personalEndpoint/:chatEndpoint" element={<JarvisChatPage />} />
                 <Route path="/sign-in" element={<LoginForm/>}/>
                 <Route path="/" element={<SignUpForm/>}/>
             </Routes>

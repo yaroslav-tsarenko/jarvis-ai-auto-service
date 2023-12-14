@@ -115,7 +115,6 @@ input {
 }
 
 
-
 .camera-button {
     position: relative;
     padding: 3px 0 0 0;
@@ -128,7 +127,6 @@ input {
     padding: 3px 0 0 0;
     cursor: pointer;
     margin: 0 0 0 15px;
-
 
 
 }
@@ -185,9 +183,15 @@ input:focus {
 }
 
 @keyframes dotFadeIn {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
@@ -226,6 +230,8 @@ button {
 }
 
 nav {
+    text-align: center;
+    width: 100%;
     border-top: solid 1px rgba(255, 255, 255, 0.5);
     padding: 10px;
     margin: 10px;
@@ -291,7 +297,6 @@ nav {
 }
 
 
-
 .main {
     transition: width 0.3s ease-in-out;
 }
@@ -300,7 +305,7 @@ nav {
     width: calc(100% - 0px);
 }
 
-.open-close-sidebar{
+.open-close-sidebar {
     border: none;
     position: absolute;
 
@@ -331,9 +336,11 @@ nav {
 .logout-button {
     position: relative;
     bottom: 0;
-    max-width: 210px;
-    width: 100%;
     padding: 10px;
+    max-width: 200px;
+    width: 100%;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
     background-color: red;
     color: white;
     border: none;
@@ -346,7 +353,7 @@ nav {
 }
 
 
-.greeting{
+.greeting {
     background-color: rgba(155, 155, 155, 0.25);
     border-radius: 10px;
     padding: 15px;
@@ -355,3 +362,80 @@ nav {
     margin: 30rem 0 0 0;
     color: white;
 }
+
+.chat-sessions {
+    overflow: scroll;
+    width: 100%;
+    max-width: 800px;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.chat-sessions::-webkit-scrollbar {
+    width: 5px;
+    background: rgba(241, 241, 241, 0);
+}
+
+.chat-sessions::-webkit-scrollbar-track {
+    background: rgba(241, 241, 241, 0);
+}
+
+.chat-sessions::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background: #888;
+}
+
+
+.chat-session-item {
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    margin: 10px 15px 10px 15px;
+    transition: 0.1s ease-in-out;
+    padding: 10px;
+}
+
+.chat-session-item:hover {
+    background-color: rgba(255, 255, 255, 0.24);
+    transition: 0.1s ease-in-out;
+}
+
+.new-chat-session-button {
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgba(87, 87, 87, 0.56);
+    transition: 0.2s ease-in-out;
+}
+
+.new-chat-session-button:hover {
+    background-color: rgba(255, 255, 255, 0.47);
+    transition: 0.2s ease-in-out;
+}
+
+
+.control-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.clear-chat-history {
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 0, 0, 0.48);
+    transition: 0.2s ease-in-out;
+}
+
+.clear-chat-history:hover {
+    background-color: rgba(255, 0, 0, 0.78);
+    transition: 0.2s ease-in-out;
+}
+
+.sidebar-bottom-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+

@@ -22,7 +22,15 @@ function LoginForm() {
                     const personalEndpoint = result.data.user.personalEndpoint;
 
                     // Redirect to '/jarvis-chat' + personalEndpoint
-                    navigate(`/jarvis-chat/${personalEndpoint}`);
+                    axios.post('http://localhost:8080/create-chat-session', { userEndpoint: personalEndpoint })
+                        .then(response => {
+                            if (response.data.status === "Success") {
+                                navigate(`/jarvis-chat/${personalEndpoint}/${response.data.chatEndpoint}`);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error creating chat session:', err);
+                        });
                 } else {
                     console.error('Login failed:', result.data.message);
                 }

@@ -51,6 +51,24 @@ app.get('/user/:personalEndpoint', (req, res) => {
         });
 });
 
+app.post('/create-chat-session', (req, res) => {
+    const { userEndpoint } = req.body;
+    const newChatSession = new ChatHistory({
+        userEndpoint: userEndpoint,
+        chatEndpoint: generatePersonalEndpoint(), // Generate a unique endpoint for the chat session
+        chats: []
+    });
+
+    newChatSession.save()
+        .then(chatSession => {
+            res.json({ status: 'Success', chatEndpoint: chatSession.chatEndpoint });
+        })
+        .catch(err => {
+            console.error('Error creating chat session:', err);
+            res.status(500).json({ status: 'Error', message: err.message });
+        });
+});
+
 app.post('/chat-history', (req, res) => {
     const { userName, userEndpoint, chat } = req.body;
 
@@ -63,6 +81,77 @@ app.post('/chat-history', (req, res) => {
     }).catch(err => {
         res.json({ status: 'Error', message: err });
     });
+});
+
+app.get('/chat-session/:chatEndpoint', (req, res) => {
+    const { chatEndpoint } = req.params;
+
+    ChatHistory.findOne({ chatEndpoint: chatEndpoint })
+        .then(chatSession => {
+            if (chatSession) {
+                res.json(chatSession);
+            } else {
+                res.status(404).json({ message: 'Chat session not found' });
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching chat session:', err);
+            res.status(500).json({ message: err.message });
+        });
+});
+
+app.delete('/delete-all-chat-sessions/:personalEndpoint', (req, res) => {
+    const { personalEndpoint } = req.params;
+
+    ChatHistory.deleteMany({ userEndpoint: personalEndpoint })
+        .then(() => {
+            res.status(200).json({ message: 'All chat sessions deleted' });
+        })
+        .catch(err => {
+            console.error('Error deleting chat sessions:', err);
+            res.status(500).json({ message: err.message });
+        });
+});
+app.get('/user-chat-sessions/:personalEndpoint', (req, res) => {
+    const { personalEndpoint } = req.params;
+
+    // Assuming ChatHistory model has a 'userEndpoint' field
+    ChatHistory.find({ userEndpoint: personalEndpoint })
+        .then(chatSessions => {
+            res.json({ chatSessions: chatSessions });
+        })
+        .catch(err => {
+            console.error('Error fetching chat sessions:', err);
+            res.status(500).json({ message: err.message });
+        });
+});
+app.post('/chat-message', (req, res) => {
+    const { userEndpoint, chatEndpoint, chat } = req.body;
+
+    ChatHistory.findOneAndUpdate(
+        { userEndpoint: userEndpoint, chatEndpoint: chatEndpoint },
+        { $push: { chats: chat } },
+        { upsert: true, new: true }
+    ).then(chatHistory => {
+        res.json({ status: 'Success', chatHistory: chatHistory });
+    }).catch(err => {
+        res.status(500).json({ status: 'Error', message: err.message });
+    });
+});
+app.get('/chat-session/:chatEndpoint', (req, res) => {
+    const { chatEndpoint } = req.params;
+
+    ChatHistory.findOne({ chatEndpoint: chatEndpoint })
+        .then(chatSession => {
+            if (chatSession) {
+                res.json(chatSession);
+            } else {
+                res.status(404).json({ message: 'Chat session not found' });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message });
+        });
 });
 
 app.get('/chat-histories/:personalEndpoint', (req, res) => {
@@ -96,7 +185,20 @@ app.get('/chat-history/:personalEndpoint', (req, res) => {
             res.status(500).json({ message: err.message }); // Server error
         });
 });
+app.post('/save-chat', (req, res) => {
+    const { chatEndpoint, chat } = req.body;
 
+    ChatHistory.findOneAndUpdate(
+        { chatEndpoint: chatEndpoint },
+        { $push: { chats: chat } },
+        { new: true }
+    ).then(updatedChatHistory => {
+        res.json({ status: 'Success', updatedChatHistory });
+    }).catch(err => {
+        console.error('Error updating chat session:', err);
+        res.status(500).json({ status: 'Error', message: err.message });
+    });
+});
 app.post('/sign-up', (req, res) => {
     const { name, secondName, phoneNumber, email, password } = req.body;
 

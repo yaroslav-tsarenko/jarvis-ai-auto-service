@@ -10,7 +10,7 @@ const ChatSchema = new mongoose.Schema({
 const ChatHistorySchema = new mongoose.Schema({
     userName: String,
     userEndpoint: String,
-    title: String, // Add this line
+    chatEndpoint: { type: String, unique: true }, // New field for chat session endpoint
     chats: [ChatSchema]
 });
 
