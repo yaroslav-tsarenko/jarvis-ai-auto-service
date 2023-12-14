@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from "./App";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 ReactDOM.render(

@@ -1,5 +1,4 @@
 import React from 'react'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import LoginForm from "./components/login-form/LoginForm";
 import JarvisChatPage from "./components/jarvis-chat-page/JarvisChatPage";

@@ -1,3 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+.sign-in-wrapper {
+    display: flex;
+}
+
+.left-side {
+    display: flex; /* Make the left-side a flex container */
+    justify-content: center; /* Center children horizontally */
+    align-items: center; /* Center children vertically */
+    flex-direction: column; /* Stack children vertically */
+    max-width: 700px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.right-side {
+    width: 100vw;
+    height: 100vh;
+    background: url("../../../src/assets/isometric-view-san-francisco-s-bridge.jpg") no-repeat center;
+    background-size: 100%;
+
+}
+
+.h2-title {
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin: 20px 0 20px 0;
+    color: #343541;
+}
+
+.h3-title {
+    font-size: 2rem;
+    margin: 20px 0 20px 0;
+    font-weight: 500;
+    color: #707070;
+}
+
 .label-text{
-    color: black;
+    color: #343541;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.question-p {
+    font-size: 1.5rem;
+    margin: 20px 0 20px 0;
+    font-weight: 500;
+    color: #707070;
+}
+
+.question-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in-link {
+    color: #383838;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+.input-field {
+    margin: 10px 0 10px 0;
+    background-color: #f2f2f2;
+    color: #343541;
+    height: 5vh;
+    font-weight: 500;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid #d7d7d7;
+}
+
+input[type="email"]:hover, input[type="password"]:hover {
+    /* Your hover styles go here */
+    background-color: #f0f0f0; /* Light grey background on hover */
+    border: 1px solid #a2a2a2; /* Solid border on hover */
+    outline: none; /* Remove outline on hover (optional) */
+}
+
+
+.custom-form {
+    display: block; /* Block display to allow margins to be auto */
+    margin: auto; /* Auto margins for horizontal centering */
+    width: 500px;
+}
+
+.sign-in-button {
+    margin: 10px 0 10px 0;
+    background-color: #f66711;
+    border: none;
+    height: 5vh;
+    font-weight: 500;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    transition: 0.3s ease-out;
+    width: 100%;
+}
+
+.sign-in-button:hover {
+    background-color: #ff8133;
+    transition: 0.3s ease-out;
+}
+
+.login-with-google-button{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }

@@ -97,22 +97,6 @@ app.get('/chat-history/:personalEndpoint', (req, res) => {
         });
 });
 
-/*app.post('/sign-up', (req, res) => {
-    UserModel.create(req.body)
-        .then(user => {
-            if (user) {
-                res.json({status: "Success", user: user})
-            } else {
-                res.json({status: "Error", message: "User was not created"})
-            }
-        })
-        .catch(err => res.json({status: "Error", message: err}))
-})*/
-
-/*WORKING CODE*/
-
-
-
 app.post('/sign-up', (req, res) => {
     const { name, secondName, phoneNumber, email, password } = req.body;
 

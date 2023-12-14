@@ -22,7 +22,6 @@ const JarvisChatPage = () => {
     const {personalEndpoint} = useParams();
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
-    const [chatHistory, setChatHistory] = useState([]); // Add this line
 
     useEffect(() => {
         // Fetch user information from the server using the personalEndpoint
@@ -134,37 +133,6 @@ const JarvisChatPage = () => {
         }
     };
 
-
-    /*const getMessages = async () => {
-        setIsLoading(true);
-        if (value === "What is the freight") {
-            setMessage({content: "Freight is the way of logistic"});
-            return;
-        }
-        const options = {
-            method: "POST",
-            body: JSON.stringify({
-                message: value
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        };
-        try {
-            const response = await fetch("https://jarvis-ai-logistic-server.onrender.com/completions", options);
-            const data = await response.json();
-            if (response.ok && data.choices && data.choices.length > 0) {
-                setMessage(data.choices[0].message);
-            } else {
-                console.error('No choices available or bad response:', data);
-            }
-        } catch (error) {
-            console.error('Error fetching messages:', error);
-        }
-        setIsLoading(false);
-        clickedSubmitButton();
-    };*/
-
     const getMessages = async () => {
         setIsLoading(true);
         if (value === "What is the freight") {
@@ -186,6 +154,7 @@ const JarvisChatPage = () => {
             if (response.ok && data.choices && data.choices.length > 0) {
                 setMessage(data.choices[0].message);
 
+                // Save the user's message in the database
                 // Save the user's message in the database
                 axios.post('http://localhost:8080/chat-history', {
                     userName: user.name,
@@ -260,7 +229,7 @@ const JarvisChatPage = () => {
                 <button onClick={createNewChat}>New chat</button>
                 <ul className="history">
                     {uniqueTitles?.map((uniqueTitle, index) => <li key={index}
-                                                                   onClick={() => handleClick(uniqueTitle)}>{uniqueTitle} All Chat History </li>)}
+                                                                   onClick={() => handleClick(uniqueTitle)}>{uniqueTitle}</li>)}
                 </ul>
                 <nav>
                     <p>
@@ -275,10 +244,12 @@ const JarvisChatPage = () => {
             <section className="main">
                 {!currentTitle && user && <h1 className="greeting">Hello {user.name}, nice to meet you!👋</h1>}
                 <ul className="feed">
-                    {currentChat?.map((chatMessage, index) => <li key={index}>
-                        <p className={"role"}>{chatMessage.role}</p>
-                        <p>{chatMessage.content}</p>
-                    </li>)}
+                    {previousChats.map((chatMessage, index) => (
+                        <li key={index}>
+                            <p className={"role"}>{chatMessage.role}</p>
+                            <p>{chatMessage.content}</p>
+                        </li>
+                    ))}
                 </ul>
                 <div className="loader">{isLoading ?
                     <span>Jarvis is typing.<span>.</span><span>.</span></span> : ''}</div>

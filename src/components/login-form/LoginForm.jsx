@@ -15,7 +15,7 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/sign-in', { email, password })
+        axios.post('http://localhost:8080/sign-in', {email, password})
             .then(result => {
                 if (result.data.status === "Success") {
                     // Retrieve the user's personal endpoint from the response
@@ -32,32 +32,11 @@ function LoginForm() {
                 window.alert('Error during login');
             });
     };
-
-   /* const handleGoogleLoginSuccess = (credentialResponse) => {
-        const credential = credentialResponse.credential;
-        const decoded = jwtDecode(credential); // Decode the JWT token
-        // Send the token to the backend
-        axios.post('http://localhost:8080/google-login', {token: credential})
-            .then(response => {
-                if (response.data.status === "Success") {
-                    // Redirect to the 'jarvis-chat' page upon successful login
-                    navigate('/jarvis-chat');
-                } else {
-                    // Handle any error situations here (e.g., user not saved)
-                    console.error('Login failed:', response.data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error during login:', error);
-            });
-        console.log(decoded)
-    };*/
-
     const handleGoogleLoginSuccess = (credentialResponse) => {
         const credential = credentialResponse.credential;
         const decoded = jwtDecode(credential);
 
-        axios.post('http://localhost:8080/google-login', { token: credential })
+        axios.post('http://localhost:8080/google-login', {token: credential})
             .then(response => {
                 if (response.data.status === "Success") {
                     const personalEndpoint = response.data.user.personalEndpoint;
@@ -74,45 +53,43 @@ function LoginForm() {
 
 
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3">
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Login</h5>
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="label-text">Email address</label>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        id="email"
-                                        required
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="label-text">Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="password"
-                                        required
-                                        onChange={(e) => setPassword(e.target.value)}
-                                    />
-                                </div>
-                                <Link to="/">I don't have account</Link>
-                                <button type="submit" className="btn btn-primary">Submit</button><h2>Login Page</h2>
-                                <GoogleLogin
-                                    onSuccess={handleGoogleLoginSuccess}
-                                    onError={() => {
-                                        console.log("Login Failed");
-                                    }}
-                                />
-                            </form>
-                        </div>
+        <div className="sign-in-wrapper">
+            <div className="left-side">
+                <form onSubmit={handleSubmit} className="custom-form">
+                    <h2 className="h2-title">Welcome Back</h2>
+                    <h3 className="h3-title">We hope you will be satisfied using our service</h3>
+                    <label htmlFor="email" className="label-text">Email address</label>
+                    <input
+                        className="input-field"
+                        type="email"
+                        id="email"
+                        required
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <label htmlFor="password" className="label-text">Password</label>
+                    <input
+                        className="input-field"
+                        type="password"
+                        id="password"
+                        required
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit" className="sign-in-button">SIGN IN</button>
+                    <div className="question-div">
+                        <p className="question-p">Dont have account?</p>
+                        <Link to="/" className="sign-in-link">Sign up now</Link>
                     </div>
-                </div>
+                    <div className="login-with-google-button">
+                        <GoogleLogin
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={() => {
+                                console.log("Login Failed");
+                            }}
+                        />
+                    </div>
+                </form>
+            </div>
+            <div className="right-side">
 
             </div>
         </div>
@@ -120,3 +97,5 @@ function LoginForm() {
 }
 
 export default LoginForm;
+
+
