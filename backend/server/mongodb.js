@@ -127,7 +127,6 @@ app.get('/user-chat-sessions/:personalEndpoint', (req, res) => {
 });
 app.post('/chat-message', (req, res) => {
     const { userEndpoint, chatEndpoint, chat } = req.body;
-
     ChatHistory.findOneAndUpdate(
         { userEndpoint: userEndpoint, chatEndpoint: chatEndpoint },
         { $push: { chats: chat } },

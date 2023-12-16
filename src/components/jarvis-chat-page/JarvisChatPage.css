@@ -439,3 +439,77 @@ nav {
     align-items: center;
 }
 
+/* In your CSS file */
+.beautiful-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.beautiful-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.beautiful-table th,
+.beautiful-table td {
+    padding: 12px 15px;
+}
+
+.beautiful-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.beautiful-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.beautiful-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.beautiful-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+td {
+    text-align: start;
+}
+
+.chat-avatar {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+}
+
+
+.avatar-label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.avatar-container{
+    margin: 1px 0 0 0;
+}
+
+p.p-text-message {
+    font-size: 1.2rem;
+}
+
+.message-header {
+    display: flex;
+}
+
+.message-content {
+    text-align: start;
+}
+
+
+
+

@@ -3,9 +3,9 @@ import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
 import {faBars, faTimes} from "@fortawesome/free-solid-svg-icons";
-import camera from "../../assets/camera.svg";
+import userAvatar from "../../assets/userAvatar.svg";
 import {useParams} from "react-router-dom";
-import microphone from "../../assets/microphone.svg";
+import assistantAvatar from "../../assets/jarvisAvatar.svg";
 import send from "../../assets/send.svg";
 import "./JarvisChatPage.css";
 import axios from 'axios';
@@ -24,6 +24,12 @@ const JarvisChatPage = () => {
     const {personalEndpoint, chatEndpoint} = useParams();
     const [allChatSessions, setAllChatSessions] = useState([]);
     const [hasStartedConversation, setHasStartedConversation] = useState(false);
+    const isAskingForUserInfo = (message) => {
+        const keywords = ["tell me about myself", "who am i", "my information", "my details", "show my profile",
+            "my personal info", "what do you know about me", "give me my details", "display my information", "about me",
+            "my user info", "my identity"];
+        return keywords.some(keyword => message.toLowerCase().includes(keyword.toLowerCase()));
+    };
     useEffect(() => {
         // Fetch user information from the server using the personalEndpoint
         axios.get(`http://localhost:8080/user/${personalEndpoint}`)
@@ -75,16 +81,6 @@ const JarvisChatPage = () => {
     if (!browserSupportsSpeechRecognition) {
         console.error("Browser doesn't support speech recognition.");
     }
-    const handleStartListening = () => {
-        SpeechRecognition.startListening({continuous: true, language: 'en-IN'});
-    };
-
-
-    const handleStopListening = () => {
-        SpeechRecognition.stopListening();
-        setValue(transcript); // Update the state with the transcript
-        resetTranscript();
-    };
 
     useEffect(() => {
         const handleSwipe = (e) => {
@@ -106,11 +102,7 @@ const JarvisChatPage = () => {
             window.removeEventListener('touchstart', handleSwipe);
         };
     }, []);
-    const createNewChat = () => {
-        setMessage(null)
-        setValue("")
-        setCurrentTitle(null)
-    }
+
     const createNewChatSession = () => {
         axios.post('http://localhost:8080/create-chat-session', {userEndpoint: personalEndpoint})
             .then(response => {
@@ -135,13 +127,6 @@ const JarvisChatPage = () => {
                 console.error('Error creating chat session:', err);
             });
     };
-    const handleClick = (uniqueTitle) => {
-        if (uniqueTitle === 'All Chat History') {
-            setCurrentTitle(null);
-        } else {
-            setCurrentTitle(uniqueTitle);
-        }
-    }
 
     const clickedSubmitButton = () => {
         setIsTextTransparent(true);
@@ -162,6 +147,16 @@ const JarvisChatPage = () => {
             }, 2000)
         }
     };
+
+    const isJson = (str) => {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    };
+
     const saveChatMessage = (content, role) => {
         axios.post('http://localhost:8080/chat-message', {
             userEndpoint: personalEndpoint,
@@ -174,12 +169,58 @@ const JarvisChatPage = () => {
             console.error('Error saving chat message:', err);
         });
     };
+// This function will take a JSON string, parse it and then create a JSX table
+    const jsonToTable = (jsonContent) => {
+        try {
+            const userInfo = JSON.parse(jsonContent);
+            return (
+                <table className="beautiful-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Second Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{userInfo.name}</td>
+                        <td>{userInfo.secondName}</td>
+                        <td>{userInfo.email}</td>
+                        <td>{userInfo.phoneNumber}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            );
+        } catch (e) {
+            // If JSON parsing fails, return the original content
+            return <p>{jsonContent}</p>;
+        }
+    };
 
     const getMessages = async () => {
         setHasStartedConversation(true);
         setIsLoading(true);
-        if (value === "What is the freight") {
-            setMessage({content: "Freight is the way of logistic"});
+        if (isAskingForUserInfo(value)) {
+            const userInfo = {
+                name: user.name,
+                secondName: user.secondName,
+                email: user.email,
+                phoneNumber: user.phoneNumber
+            };
+            // Convert userInfo to a string or JSON object
+            const userInfoString = JSON.stringify(userInfo);
+
+            // Update the chat with the user's information
+            setPreviousChats([...previousChats, {role: "You", content: value}, {
+                role: "Assistant",
+                content: userInfoString
+            }]);
+            saveChatMessage(value, 'You'); // User's message
+            saveChatMessage(userInfoString, 'Assistant'); // Assistant's message
+            setValue('');
+            setIsLoading(false);
             return;
         }
         const options = {
@@ -197,7 +238,6 @@ const JarvisChatPage = () => {
             if (response.ok && data.choices && data.choices.length > 0) {
                 const assistantResponse = data.choices[0].message;
                 setMessage(assistantResponse);
-
                 // Save both user's message and assistant's response
                 saveChatMessage(value, 'You'); // User's message
                 saveChatMessage(assistantResponse.content, 'Assistant');
@@ -327,12 +367,28 @@ const JarvisChatPage = () => {
                 {!hasStartedConversation && user && <h1 className="greeting">Hello {user.name}, nice to meet you!👋</h1>}
                 <ul className="feed">
                     {previousChats.map((chatMessage, index) => (
-                        <li key={index}>
-                            <p className={"role"}>{chatMessage.role}</p>
-                            <p>{chatMessage.content}</p>
+                        <li key={index} className={`message ${chatMessage.role}`}>
+                            <div className="message-header">
+    <span className="avatar-container">
+      <img src={chatMessage.role === 'You' ? userAvatar : assistantAvatar} alt={chatMessage.role}
+           className="chat-avatar"/>
+    </span>
+                                <div className="message-content">
+                                    <span className="avatar-label">{chatMessage.role === 'You' ? 'You' : 'Jarvis'}</span>
+
+                                    {chatMessage.role === 'Assistant' && isJson(chatMessage.content) ? (
+                                        jsonToTable(chatMessage.content)
+                                    ) : (
+                                        <p className="p-text-message">{chatMessage.content}</p>
+                                    )}
+                                </div>
+                            </div>
+
                         </li>
                     ))}
                 </ul>
+
+
                 <div className="loader">{isLoading ?
                     <span>Jarvis is typing.<span>.</span><span>.</span></span> : ''}</div>
 
