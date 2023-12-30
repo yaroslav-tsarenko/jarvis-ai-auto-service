@@ -63,7 +63,7 @@ function LoginForm() {
     return (
         <div className="sign-in-wrapper">
             <div className="left-side">
-                <form onSubmit={handleSubmit} className="custom-form">
+                <form onSubmit={handleSubmit} className="login-custom-form">
                     <h2 className="h2-title">Welcome Back</h2>
                     <h3 className="h3-title">We hope you will be satisfied using our service</h3>
                     <label htmlFor="email" className="label-text">Email address</label>
@@ -97,7 +97,7 @@ function LoginForm() {
                     </div>
                 </form>
             </div>
-            <div className="right-side">
+            <div className="right-side-login">
 
             </div>
         </div>

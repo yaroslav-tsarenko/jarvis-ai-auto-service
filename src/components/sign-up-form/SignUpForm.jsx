@@ -51,14 +51,14 @@ function SignUpForm() {
     return (
         <div className="sign-in-wrapper">
             <div className="left-side">
-                <form onSubmit={handleSubmit} className="custom-form">
+                <form onSubmit={handleSubmit} className="sign-up-custom-form">
                     <h2 className="h2-title">Create your first account</h2>
                     <h3 className="h3-title">You won't regret it</h3>
                     <label htmlFor="name" className="label-text">Name</label>
                     <input
                         type="text"
                         autoComplete="off"
-                        className="input-field"
+                        className="input-field-name"
                         id="name"
                         required
                         onChange={(e) => setName(e.target.value)}
@@ -69,7 +69,7 @@ function SignUpForm() {
                     <input
                         type="text"
                         autoComplete="off"
-                        className="input-field"
+                        className="input-field-second-name"
                         id="name"
                         required
                         onChange={(e) => setSecondName(e.target.value)}
@@ -79,7 +79,7 @@ function SignUpForm() {
                     <input
                         type="text"
                         autoComplete="off"
-                        className="input-field"
+                        className="input-field-phone-number"
                         id="name"
                         required
                         onChange={(e) => setPhoneNumber(e.target.value)}
@@ -88,7 +88,7 @@ function SignUpForm() {
                     <label htmlFor="email" className="label-text">Email address</label>
                     <input
                         type="email"
-                        className="input-field"
+                        className="input-field-email"
                         id="email"
                         required
                         onChange={(e) => setEmail(e.target.value)}
@@ -97,16 +97,16 @@ function SignUpForm() {
                     <label htmlFor="password" className="label-text">Password</label>
                     <input
                         type="password"
-                        className="input-field"
+                        className="input-field-password"
                         id="password"
                         required
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    <button type="submit" className="sign-up-button">SIGN UP</button>
 
-                    <button type="submit" className="sign-in-button">SIGN UP</button>
                     <div className="question-div">
                         <p className="question-p">Already have an account?</p>
-                        <Link to="/sign-in" className="sign-in-link">Sign in now</Link>
+                        <Link to="/sign-in" className="sign-in-link-sign-up">Sign in now</Link>
                     </div>
                     <div className="login-with-google-button">
                         <GoogleLogin
@@ -116,6 +116,7 @@ function SignUpForm() {
                             }}
                         />
                     </div>
+
                 </form>
             </div>
             <div className="right-side">

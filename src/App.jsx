@@ -4,6 +4,7 @@ import LoginForm from "./components/login-form/LoginForm";
 import JarvisChatPage from "./components/jarvis-chat-page/JarvisChatPage";
 import SignUpForm from "./components/sign-up-form/SignUpForm";
 import UserPage from "./components/user-page/UserPage";
+import AdminDashboard from "./components/admin-dashboard-page/AdminDashboard";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path="/jarvis-chat/:personalEndpoint/:chatEndpoint" element={<JarvisChatPage />} />
                 <Route path="/sign-in" element={<LoginForm/>}/>
                 <Route path="/" element={<SignUpForm/>}/>
+                <Route path="/admin-dashboard/:personalEndpoint" element={<AdminDashboard/>}/>
             </Routes>
         </Router>
     )

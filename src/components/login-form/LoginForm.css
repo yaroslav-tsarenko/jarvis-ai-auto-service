@@ -10,20 +10,13 @@
 }
 
 .left-side {
-    display: flex; /* Make the left-side a flex container */
-    justify-content: center; /* Center children horizontally */
-    align-items: center; /* Center children vertically */
-    flex-direction: column; /* Stack children vertically */
-    max-width: 700px;
-    width: 100%;
-    background-color: #ffffff;
 }
 
-.right-side {
+.right-side-login {
     width: 100vw;
     height: 100vh;
     background: url("../../../src/assets/isometric-view-san-francisco-s-bridge.jpg") no-repeat center;
-    background-size: 100%;
+    background-size: cover;
 
 }
 
@@ -88,10 +81,13 @@ input[type="email"]:hover, input[type="password"]:hover {
 }
 
 
-.custom-form {
+.login-custom-form {
+    position: relative;
     display: block; /* Block display to allow margins to be auto */
-    margin: auto; /* Auto margins for horizontal centering */
-    width: 500px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 15px 0 15px;
+    padding: 0 15px 0 15px;
 }
 
 .sign-in-button {
@@ -115,4 +111,20 @@ input[type="email"]:hover, input[type="password"]:hover {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+@media only screen and (max-width: 694px) {
+    .right-side-login{
+        display: none;
+    }
+
+    .left-side{
+        width: 100vw;
+        height: 100vh;
+        background-color: #f2f2f2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
