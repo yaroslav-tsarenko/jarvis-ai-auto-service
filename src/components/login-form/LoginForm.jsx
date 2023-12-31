@@ -15,14 +15,14 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://jarvis-ai-logistic-db-server.onrender.com/sign-in', {email, password})
+        axios.post('https://jarvis-ai-logistic-db-server-2.onrender.com/sign-in', {email, password})
             .then(result => {
                 if (result.data.status === "Success") {
                     // Retrieve the user's personal endpoint from the response
                     const personalEndpoint = result.data.user.personalEndpoint;
 
                     // Redirect to '/jarvis-chat' + personalEndpoint
-                    axios.post('https://jarvis-ai-logistic-db-server.onrender.com/create-chat-session', { userEndpoint: personalEndpoint })
+                    axios.post('https://jarvis-ai-logistic-db-server-2.onrender.com/create-chat-session', { userEndpoint: personalEndpoint })
                         .then(response => {
                             if (response.data.status === "Success") {
                                 navigate(`/jarvis-chat/${personalEndpoint}/${response.data.chatEndpoint}`);
@@ -44,7 +44,7 @@ function LoginForm() {
         const credential = credentialResponse.credential;
         const decoded = jwtDecode(credential);
 
-        axios.post('https://jarvis-ai-logistic-db-server.onrender.com/google-login', {token: credential})
+        axios.post('https://jarvis-ai-logistic-db-server-2.onrender.com/google-login', {token: credential})
             .then(response => {
                 if (response.data.status === "Success") {
                     const personalEndpoint = response.data.user.personalEndpoint;

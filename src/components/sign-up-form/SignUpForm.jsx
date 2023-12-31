@@ -15,7 +15,7 @@ function SignUpForm() {
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://jarvis-ai-logistic-db-server.onrender.com/sign-up', {name, secondName, phoneNumber, email, password})
+        axios.post('https://jarvis-ai-logistic-db-server-2.onrender.com/sign-up', {name, secondName, phoneNumber, email, password})
             .then(result => {
                 if (result.data.status === "Success") {
                     // Redirect to the login form
@@ -34,7 +34,7 @@ function SignUpForm() {
         const credential = credentialResponse.credential;
         const decoded = jwtDecode(credential);
 
-        axios.post('https://jarvis-ai-logistic-db-server.onrender.com/google-login', {token: credential})
+        axios.post('https://jarvis-ai-logistic-db-server-2.onrender.com/google-login', {token: credential})
             .then(response => {
                 if (response.data.status === "Success") {
                     const personalEndpoint = response.data.user.personalEndpoint;
