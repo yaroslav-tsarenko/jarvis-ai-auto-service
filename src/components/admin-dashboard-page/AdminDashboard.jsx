@@ -64,7 +64,7 @@ const AdminDashboard = () => {
         }
     }, [touchStart, touchEnd]);
     useEffect(() => {
-        axios.get('https://jarvis-ai-logistic-db-server-2.onrender.com/all-user-loads')
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/all-user-loads')
             .then(response => {
                 setData(response.data);
             })
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('https://jarvis-ai-logistic-db-server-2.onrender.com/get-heavy-equipment-loads')
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/get-heavy-equipment-loads')
             .then(response => {
                 if (response.data && response.status === 200) {
                     setHeavyEquipmentLoads(response.data.loads); // Set the loads in state
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
             });
     }, []); // Empty dependency array means this effect runs once on component mount
     useEffect(() => {
-        axios.get('https://jarvis-ai-logistic-db-server-2.onrender.com/get-construction-equipment-loads')
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/get-construction-equipment-loads')
             .then(response => {
                 if (response.data && response.status === 200) {
                     setConstructionEquipmentLoads(response.data.loads); // Set the loads in state
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
             });
     }, []); // Empty dependency array means this effect runs once on component mount
     useEffect(() => {
-        axios.get('https://jarvis-ai-logistic-db-server-2.onrender.com/get-boat-loads')
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/get-boat-loads')
             .then(response => {
                 if (response.data && response.status === 200) {
                     setBoatLoads(response.data.loads); // Set the loads in state
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
             });
     }, []); // Empty dependency array means this effect runs once on component mount
     useEffect(() => {
-        axios.get('https://jarvis-ai-logistic-db-server-2.onrender.com/get-commercial-truck-loads')
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/get-commercial-truck-loads')
             .then(response => {
                 if (response.data && response.status === 200) {
                     setCommercialTruckLoads(response.data.loads); // Set the loads in state
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
             });
     }, []);
     useEffect(() => {
-        axios.get(`https://jarvis-ai-logistic-db-server-2.onrender.com/submit-vehicle-load/${personalEndpoint}`)
+        axios.get(`https://jarvis-ai-logistic-db-server.onrender.com/submit-vehicle-load/${personalEndpoint}`)
             .then(response => {
                 if (response.data && response.status === 200) {
                     setVehicleLoads(response.data);
@@ -140,7 +140,7 @@ const AdminDashboard = () => {
     }, [personalEndpoint]); // Ensure this runs when personalEndpoint changes
 
     useEffect(() => {
-        axios.get('https://jarvis-ai-logistic-db-server-2.onrender.com/get-moto-equipment-loads')
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/get-moto-equipment-loads')
             .then(response => {
                 if (response.data && response.status === 200) {
                     setMotoEquipmentLoads(response.data.loads); // Set the loads in state
