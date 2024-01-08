@@ -108,6 +108,7 @@ input[type="email"]:hover, input[type="password"]:hover {
 }
 
 .login-with-google-button{
+    color: #343541;
     display: flex;
     justify-content: center;
     margin-top: 20px;

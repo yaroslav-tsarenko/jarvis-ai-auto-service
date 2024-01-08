@@ -1,0 +1,800 @@
+ <div className="user-manage-table">
+                        <table className="rounded-table">
+                            <thead>
+                            <tr>
+                                <th>Boat Type</th>
+                                <th>Boat Model</th>
+                                <th>Boat Year</th>
+                                <th>Boat Color</th>
+                                <th>License Plate</th>
+                                <th>VIN</th>
+                                <th>Pickup Location</th>
+                                <th>Delivery Location</th>
+                                <th>Convertible</th>
+                                <th>Modified</th>
+                                <th>Inoperable</th>
+                                <th>Service Level</th>
+                                <th>Enclosed Transport</th>
+                                <th>Terms Agreed</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {boatLoads.map(load => (
+                                <tr key={load._id}>
+                                    <td>{load.boatType}</td>
+                                    <td>{load.boatModel}</td>
+                                    <td>{load.boatYear}</td>
+                                    <td>{load.boatColor}</td>
+                                    <td>{load.boatLicensePlate}</td>
+                                    <td>{load.boatVin}</td>
+                                    <td>{load.pickupLocation}</td>
+                                    <td>{load.deliveryLocation}</td>
+                                    <td>{load.isConvertible ? 'Yes' : 'No'}</td>
+                                    <td>{load.isModified ? 'Yes' : 'No'}</td>
+                                    <td>{load.isInoperable ? 'Yes' : 'No'}</td>
+                                    <td>{load.serviceLevel}</td>
+                                    <td>{load.enclosedTransport ? 'Yes' : 'No'}</td>
+                                    <td>{load.termsAgreed ? 'Yes' : 'No'}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                            <tfoot className="footer-table">
+                            <tr>
+                                <td colSpan="16">
+                                    <div className="pagination-buttons-wrapper">
+                                        <button className="pagination-button-previous-next">Previous Page</button>
+                                        <button className="pagination-button"><p>1</p></button>
+                                        <button className="pagination-button"><p>2</p></button>
+                                        <button className="pagination-button"><p>3</p></button>
+                                        <button className="pagination-button"><p>4</p></button>
+                                        <button className="pagination-button"><p>5</p></button>
+                                        <button className="pagination-button-previous-next">Next Page</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div className="user-manage-table">
+                                            <table className="rounded-table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Equipment Type</th>
+                                                    <th>Equipment Model</th>
+                                                    <th>Equipment Year</th>
+                                                    <th>Equipment Color</th>
+                                                    <th>License Plate</th>
+                                                    <th>VIN</th>
+                                                    <th>Pickup Location</th>
+                                                    <th>Delivery Location</th>
+                                                    <th>Convertible</th>
+                                                    <th>Modified</th>
+                                                    <th>Inoperable</th>
+                                                    <th>Service Level</th>
+                                                    <th>Enclosed Transport</th>
+                                                    <th>Terms Agreed</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {constructionEquipmentLoads.map(load => (
+                                                    <tr key={load._id}>
+                                                        <td>{load.equipmentType}</td>
+                                                        <td>{load.equipmentModel}</td>
+                                                        <td>{load.equipmentYear}</td>
+                                                        <td>{load.equipmentColor}</td>
+                                                        <td>{load.equipmentLicensePlate}</td>
+                                                        <td>{load.equipmentVin}</td>
+                                                        <td>{load.pickupLocation}</td>
+                                                        <td>{load.deliveryLocation}</td>
+                                                        <td>{load.isConvertible ? 'Yes' : 'No'}</td>
+                                                        <td>{load.isModified ? 'Yes' : 'No'}</td>
+                                                        <td>{load.isInoperable ? 'Yes' : 'No'}</td>
+                                                        <td>{load.serviceLevel}</td>
+                                                        <td>{load.enclosedTransport ? 'Yes' : 'No'}</td>
+                                                        <td>{load.termsAgreed ? 'Yes' : 'No'}</td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                                <tfoot className="footer-table">
+                                                <tr>
+                                                    <td colSpan="16">
+                                                        <div className="pagination-buttons-wrapper">
+                                                            <button className="pagination-button-previous-next">Previous Page</button>
+                                                            <button className="pagination-button"><p>1</p></button>
+                                                            <button className="pagination-button"><p>2</p></button>
+                                                            <button className="pagination-button"><p>3</p></button>
+                                                            <button className="pagination-button"><p>4</p></button>
+                                                            <button className="pagination-button"><p>5</p></button>
+                                                            <button className="pagination-button-previous-next">Next Page</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div className="user-manage-table">
+                                            <table className="rounded-table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Make and Model</th>
+                                                    <th>Serial Number</th>
+                                                    <th>Weight</th>
+                                                    <th>Operator's Name</th>
+                                                    <th>Pickup Location</th>
+                                                    <th>Delivery Location</th>
+                                                    <th>Service Level</th>
+                                                    <th>Terms Agreed</th>
+                                                    <th>Delivery Date</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {heavyEquipmentLoads.map(load => (
+                                                    <tr key={load._id}>
+                                                        <td>{load.makeAndModel}</td>
+                                                        <td>{load.serialNumber}</td>
+                                                        <td>{load.weight}</td>
+                                                        <td>{load.operatorName}</td>
+                                                        <td>{load.pickupLocation}</td>
+                                                        <td>{load.deliveryLocation}</td>
+                                                        <td>{load.serviceLevel}</td>
+                                                        <td>{load.termsAgreed ? 'Yes' : 'No'}</td>
+                                                        <td>{new Date(load.deliveryDate).toLocaleDateString()}</td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                                <tfoot className="footer-table">
+                                                <tr>
+                                                    <td colSpan="16">
+                                                        <div className="pagination-buttons-wrapper">
+                                                            <button className="pagination-button-previous-next">Previous Page</button>
+                                                            <button className="pagination-button"><p>1</p></button>
+                                                            <button className="pagination-button"><p>2</p></button>
+                                                            <button className="pagination-button"><p>3</p></button>
+                                                            <button className="pagination-button"><p>4</p></button>
+                                                            <button className="pagination-button"><p>5</p></button>
+                                                            <button className="pagination-button-previous-next">Next Page</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                         <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                <div className="load-container-header">
+                                                                    <h2>Boat Load</h2>
+                                                                </div>
+                                                                {boatLoads.map(load => (
+                                                                    <div className="load-container-body-wrapper" key={load._id}>
+                                                                        <div className="load-container-body-closed">
+                                                                            <div className="load-container-body-info-labels">
+                                                                                <p className="label-title">Boat Type:</p>
+                                                                                <p className="label-variable">{load.boatType}</p>
+                                                                            </div>
+                                                                            <div className="load-container-body-info-labels">
+                                                                                <p className="label-title">Boat Model:</p>
+                                                                                <p className="label-variable">{load.boatModel}</p>
+                                                                            </div>
+                                                                            <div className="load-container-body-info-labels">
+                                                                                <p className="label-title">Boat Year:</p>
+                                                                                <p className="label-variable">{load.boatYear}</p>
+                                                                            </div>
+                                                                            <div className="load-container-body-info-labels">
+                                                                                <p className="label-title">Boat Color:</p>
+                                                                                <p className="label-variable">{load.boatColor}</p>
+                                                                            </div>
+                                                                            <div className="load-container-body-info-labels">
+                                                                                <p className="label-title">Boat License Plate:</p>
+                                                                                <p className="label-variable">{load.boatLicensePlate}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        {isExpanded && (
+                                                                            <div className="load-container-body-opened">
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Vehicle VIN:</p>
+                                                                                    <p className="label-variable">{load.boatVin}</p>
+                                                                                </div>
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Pickup Location:</p>
+                                                                                    <p className="label-variable">{load.pickupLocation}</p>
+                                                                                </div>
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Delivery Location:</p>
+                                                                                    <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                </div>
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Is Convertible:</p>
+                                                                                    <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                </div>
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Is Modified:</p>
+                                                                                    <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                </div>
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Is Inoperable:</p>
+                                                                                    <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                </div>
+                                                                                <div className="load-container-body-info-labels">
+                                                                                    <p className="label-title">Service Level:</p>
+                                                                                    <p className="label-variable">{load.serviceLevel}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+
+                                                             <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>Heavy Load</h2>
+                                                                                    </div>
+                                                                                    {heavyEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>Moto Load</h2>
+                                                                                    </div>
+                                                                                    {motoEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>Boat Load</h2>
+                                                                                    </div>
+                                                                                    {boatLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>Military load</h2>
+                                                                                    </div>
+                                                                                    {constructionEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>Expedite load</h2>
+                                                                                    </div>
+                                                                                    {constructionEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>FTL load</h2>
+                                                                                    </div>
+                                                                                    {constructionEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>LTL load</h2>
+                                                                                    </div>
+                                                                                    {constructionEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                                                                    <div className="load-container-header">
+                                                                                        <h2>Long Distance load</h2>
+                                                                                    </div>
+                                                                                    {constructionEquipmentLoads.map(load => (
+                                                                                        <div className="load-container-body-wrapper" key={load._id}>
+                                                                                            <div className="load-container-body-closed">
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Type:</p>
+                                                                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Model:</p>
+                                                                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Year:</p>
+                                                                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle Color:</p>
+                                                                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                                                                </div>
+                                                                                                <div className="load-container-body-info-labels">
+                                                                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {isExpanded && (
+                                                                                                <div className="load-container-body-opened">
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Vehicle VIN:</p>
+                                                                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Pickup Location:</p>
+                                                                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Delivery Location:</p>
+                                                                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Convertible:</p>
+                                                                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Modified:</p>
+                                                                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Is Inoperable:</p>
+                                                                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                                                                    </div>
+                                                                                                    <div className="load-container-body-info-labels">
+                                                                                                        <p className="label-title">Service Level:</p>
+                                                                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+
+
+                 6LcsaEgpAAAAADTbchGJZHFaS6EhEYjoBSd6Nwmd
+                 6LcsaEgpAAAAAItZLGPMM6YgxyoApjiN9mxuY1KZ
+
+
+
+             <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
+                                    <div className="load-container-header">
+                                        <h2>Commercial Truck Load</h2>
+                                    </div>
+                                    {commercialTruckLoads.map(load => (
+                                        <div className="load-container-body-wrapper" key={load._id}>
+                                            <div className="load-container-body-closed">
+                                                <div className="load-container-body-info-labels">
+                                                    <p className="label-title">Vehicle Type:</p>
+                                                    <p className="label-variable">{load.vehicleType}</p>
+                                                </div>
+                                                <div className="load-container-body-info-labels">
+                                                    <p className="label-title">Vehicle Model:</p>
+                                                    <p className="label-variable">{load.vehicleModel}</p>
+                                                </div>
+                                                <div className="load-container-body-info-labels">
+                                                    <p className="label-title">Vehicle Year:</p>
+                                                    <p className="label-variable">{load.vehicleYear}</p>
+                                                </div>
+                                                <div className="load-container-body-info-labels">
+                                                    <p className="label-title">Vehicle Color:</p>
+                                                    <p className="label-variable">{load.vehicleColor}</p>
+                                                </div>
+                                                <div className="load-container-body-info-labels">
+                                                    <p className="label-title">Vehicle License Plate:</p>
+                                                    <p className="label-variable">{load.vehicleLicensePlate}</p>
+                                                </div>
+                                            </div>
+                                            {isExpanded && (
+                                                <div className="load-container-body-opened">
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Vehicle VIN:</p>
+                                                        <p className="label-variable">{load.vehicleVin}</p>
+                                                    </div>
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Pickup Location:</p>
+                                                        <p className="label-variable">{load.pickupLocation}</p>
+                                                    </div>
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Delivery Location:</p>
+                                                        <p className="label-variable">{load.deliveryLocation}</p>
+                                                    </div>
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Is Convertible:</p>
+                                                        <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
+                                                    </div>
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Is Modified:</p>
+                                                        <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
+                                                    </div>
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Is Inoperable:</p>
+                                                        <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
+                                                    </div>
+                                                    <div className="load-container-body-info-labels">
+                                                        <p className="label-title">Service Level:</p>
+                                                        <p className="label-variable">{load.serviceLevel}</p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>

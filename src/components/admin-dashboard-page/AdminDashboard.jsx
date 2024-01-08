@@ -6,6 +6,8 @@ import {faFilter} from "@fortawesome/free-solid-svg-icons";
 import {faBars, faTimes, faSignOutAlt, faCog, faTruck, faRobot, faUser} from "@fortawesome/free-solid-svg-icons";
 import {ReactComponent as UserAvatarComponent} from "../../assets/userAvatar2.svg";
 import {ReactComponent as BellComponent} from "../../assets/bell.svg";
+import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { faEdit, faTrashAlt, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from 'axios';
 
@@ -29,6 +31,50 @@ const AdminDashboard = () => {
     const [touchEnd, setTouchEnd] = useState(null);
     const sidebarRef = useRef(null);
     const minSwipeDistance = 50;
+    const [editingLoad, setEditingLoad] = useState(null); // Holds the load currently being edited
+    const [isEditFormVisible, setIsEditFormVisible] = useState(false); // Controls the visibility of the edit form
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedLoad, setSelectedLoad] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showDetails, setShowDetails] = useState(false);
+    const [formData, setFormData] = useState(null);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const handleFormChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+    const handleEdit = (load) => {
+        setSelectedLoad(load);
+        setFormData(load); // Set the formData state to the current load
+        setShowEditForm(true); // Open the edit form
+    };
+    const handleCancel = () => {
+        setShowEditForm(false); // Close the edit form
+    };
+    const handleDetails = (load) => {
+        setSelectedLoad(load);
+        setFormData(load); // Set the formData state to the current load
+        setShowDetails(!showDetails);
+    };
+    const handleDelete = (load) => {
+        if (window.confirm('Are you sure you want to delete this load?')) {
+            axios.delete(`https://jarvis-ai-logistic-db-server.onrender.com/delete-commercial-truck-load/${load._id}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        // Remove the deleted load from the state
+                        setCommercialTruckLoads(commercialTruckLoads.filter(l => l._id !== load._id));
+                    } else {
+                        console.error('Error deleting load:', response);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting load:', error);
+                });
+        }
+    };
+    const toggleOpen = () => setIsOpen(!isOpen);
     useEffect(() => {
         const target = sidebarRef.current;
 
@@ -51,6 +97,7 @@ const AdminDashboard = () => {
             target.removeEventListener('touchmove', handleTouchMove);
         };
     }, []);
+
     useEffect(() => {
         if (!touchStart || !touchEnd) return;
         const distance = touchStart - touchEnd;
@@ -72,7 +119,24 @@ const AdminDashboard = () => {
                 console.error('There was an error!', error);
             });
     }, []);
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
 
+        // Send a PUT request to the server to update the load
+        axios.put(`https://jarvis-ai-logistic-db-server.onrender.com/update-commercial-truck-load/${selectedLoad._id}`, formData)
+            .then(response => {
+                if (response.data && response.status === 200) {
+                    // Update the load in the state
+                    setCommercialTruckLoads(commercialTruckLoads.map(load => load._id === selectedLoad._id ? response.data : load));
+                    setShowDetails(false); // Close the details div
+                } else {
+                    console.error('Error updating load:', response);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating load:', error);
+            });
+    };
     useEffect(() => {
         axios.get('https://jarvis-ai-logistic-db-server.onrender.com/get-heavy-equipment-loads')
             .then(response => {
@@ -151,7 +215,7 @@ const AdminDashboard = () => {
             .catch(error => {
                 console.error('Error fetching Moto Equipment loads:', error);
             });
-    }, []); // Empty dependency array means this effect runs once on component mount
+    }, []);
 
 
     const toggleSidebar = () => {
@@ -229,234 +293,146 @@ const AdminDashboard = () => {
                             </button>
                         </div>
                     </div>
-
-                    <div className={`load-container ${isExpanded ? 'expanded' : ''}`} onClick={() => setIsExpanded(!isExpanded)}>
-                        <div className="load-container-header">
-                            <h2>Commercial Truck Load</h2>
+                    <div className="table-wrapper">
+                        <div className="table-columns-titles">
+                            <p>LOAD TYPE</p>
+                            <p>PICKUP</p>
+                            <p>DESTINATION</p>
+                            <p>LOAD STATUS</p>
+                            <p>GOODS</p>
+                            <p>PRICE</p>
+                            <p>INFO</p>
                         </div>
-                        {commercialTruckLoads.map(load => (
-                            <div className="load-container-body-wrapper" key={load._id}>
-                                <div className="load-container-body-closed">
-                                    <div className="load-container-body-info-labels">
-                                        <p className="label-title">Vehicle Type:</p>
-                                        <p className="label-variable">{load.vehicleType}</p>
-                                    </div>
-                                    <div className="load-container-body-info-labels">
-                                        <p className="label-title">Vehicle Model:</p>
-                                        <p className="label-variable">{load.vehicleModel}</p>
-                                    </div>
-                                    <div className="load-container-body-info-labels">
-                                        <p className="label-title">Vehicle Year:</p>
-                                        <p className="label-variable">{load.vehicleYear}</p>
-                                    </div>
-                                    <div className="load-container-body-info-labels">
-                                        <p className="label-title">Vehicle Color:</p>
-                                        <p className="label-variable">{load.vehicleColor}</p>
-                                    </div>
-                                    <div className="load-container-body-info-labels">
-                                        <p className="label-title">Vehicle License Plate:</p>
-                                        <p className="label-variable">{load.vehicleLicensePlate}</p>
+                        {commercialTruckLoads.map((load, index) => (
+                        <div className="table-items-wrapper">
+                                <div className={`table-item ${load === selectedLoad ? 'selected' : ''}`} key={index}>
+                                    <p>{load.vehicleType}</p>
+                                    <p>{load.pickupLocation}</p>
+                                    <p>{load.deliveryLocation}</p>
+                                    <p className="load-status-pending">Pending</p>
+                                    <p>No</p>
+                                    <p>555$</p>
+                                    <div className="dropdown" onClick={toggleOpen}>
+                                        <button className="dropdown-button">&#8942;</button>
+                                        {isOpen && (
+                                            <div className="dropdown-menu-buttons">
+                                                <a href="#/action-1" onClick={() => handleEdit(load)}>Edit Load <FontAwesomeIcon className="icon-a" icon={faEdit}/></a>
+                                                <a href="#/action-2" onClick={() => handleDetails(load)}>More Details <FontAwesomeIcon className="icon-a" icon={faEllipsisH}/></a>
+                                                <a href="#/action-3" onClick={() => handleDelete(load)}>Delete Load <FontAwesomeIcon className="icon-a" icon={faTrashAlt}/></a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                                {isExpanded && (
-                                    <div className="load-container-body-opened">
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Vehicle VIN:</p>
-                                            <p className="label-variable">{load.vehicleVin}</p>
-                                        </div>
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Pickup Location:</p>
-                                            <p className="label-variable">{load.pickupLocation}</p>
-                                        </div>
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Delivery Location:</p>
-                                            <p className="label-variable">{load.deliveryLocation}</p>
-                                        </div>
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Is Convertible:</p>
-                                            <p className="label-variable">{load.isConvertible ? 'Yes' : 'No'}</p>
-                                        </div>
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Is Modified:</p>
-                                            <p className="label-variable">{load.isModified ? 'Yes' : 'No'}</p>
-                                        </div>
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Is Inoperable:</p>
-                                            <p className="label-variable">{load.isInoperable ? 'Yes' : 'No'}</p>
-                                        </div>
-                                        <div className="load-container-body-info-labels">
-                                            <p className="label-title">Service Level:</p>
-                                            <p className="label-variable">{load.serviceLevel}</p>
-                                        </div>
+                            {showDetails && selectedLoad === load && (
+                                <div className="load-details-wrapper">
+                                    <div className="load-details">
+                                        <label>
+                                            <h2>Vehicle Type</h2>
+                                            <p>{selectedLoad.vehicleType}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Vehicle Model</h2>
+                                            <p>{selectedLoad.vehicleModel}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Vehicle Year</h2>
+                                            <p>{selectedLoad.vehicleYear}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Vehicle Color</h2>
+                                            <p>{selectedLoad.vehicleColor}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Vehicle License Plate</h2>
+                                            <p>{selectedLoad.vehicleLicensePlate}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Vehicle Vin</h2>
+                                            <p>{selectedLoad.vehicleVin}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Pickup Location</h2>
+                                            <p>{selectedLoad.pickupLocation}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Delivery Location</h2>
+                                            <p>{selectedLoad.deliveryLocation}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Is Convertible</h2>
+                                            <p>{selectedLoad.isConvertible ? 'Yes' : 'No'}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Is Modified</h2>
+                                            <p>{selectedLoad.isModified ? 'Yes' : 'No'}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Is Inoperable</h2>
+                                            <p>{selectedLoad.isInoperable ? 'Yes' : 'No'}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Service Level</h2>
+                                            <p>{selectedLoad.serviceLevel}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Enclosed Transport</h2>
+                                            <p>{selectedLoad.enclosedTransport ? 'Yes' : 'No'}</p>
+                                        </label>
+                                        <label>
+                                            <h2>Terms Agreed</h2>
+                                            <p>{selectedLoad.termsAgreed ? 'Yes' : 'No'}</p>
+                                        </label>
                                     </div>
-                                )}
-                            </div>
+                                    <button className="hide-details-button" onClick={() => setShowDetails(false)}>Hide</button>
+                                </div>
+                            )}
+                            {showEditForm && selectedLoad === load && (
+                                <div className="load-edit-form-wrapper">
+                                    <div className="load-edit-form">
+                                        <form onSubmit={handleFormSubmit}>
+                                            <label>
+                                                Vehicle Type:
+                                                <input type="text" name="vehicleType" value={formData.vehicleType} onChange={handleFormChange} placeholder={formData.vehicleType} />
+                                            </label>
+                                            <label>
+                                                Vehicle Model:
+                                                <input type="text" name="vehicleModel" value={formData.vehicleModel} onChange={handleFormChange} placeholder={formData.vehicleModel} />
+                                            </label>
+                                            <label>
+                                                Vehicle Year:
+                                                <input type="text" name="vehicleYear" value={formData.vehicleYear} onChange={handleFormChange} placeholder={formData.vehicleYear} />
+                                            </label>
+                                            <label>
+                                                Vehicle Color:
+                                                <input type="text" name="vehicleColor" value={formData.vehicleColor} onChange={handleFormChange} placeholder={formData.vehicleColor} />
+                                            </label>
+                                            <label>
+                                                Vehicle License Plate:
+                                                <input type="text" name="vehicleLicensePlate" value={formData.vehicleLicensePlate} onChange={handleFormChange} placeholder={formData.vehicleLicensePlate} />
+                                            </label>
+                                            <label>
+                                                Vehicle Vin:
+                                                <input type="text" name="vehicleVin" value={formData.vehicleVin} onChange={handleFormChange} placeholder={formData.vehicleVin} />
+                                            </label>
+                                            <label>
+                                                Pickup Location:
+                                                <input type="text" name="pickupLocation" value={formData.pickupLocation} onChange={handleFormChange} placeholder={formData.pickupLocation} />
+                                            </label>
+                                            <label>
+                                                Delivery Location:
+                                                <input type="text" name="deliveryLocation" value={formData.deliveryLocation} onChange={handleFormChange} placeholder={formData.deliveryLocation} />
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <button className="edit-form-submit" type="submit">Submit</button>
+                                    <button className="edit-form-cancel" type="button" onClick={handleCancel}>Cancel</button>
+                                </div>
+                            )}
+                        </div>
                         ))}
                     </div>
 
-                    <div className="user-manage-table">
-                        <table className="rounded-table">
-                            <thead>
-                            <tr>
-                                <th>Boat Type</th>
-                                <th>Boat Model</th>
-                                <th>Boat Year</th>
-                                <th>Boat Color</th>
-                                <th>License Plate</th>
-                                <th>VIN</th>
-                                <th>Pickup Location</th>
-                                <th>Delivery Location</th>
-                                <th>Convertible</th>
-                                <th>Modified</th>
-                                <th>Inoperable</th>
-                                <th>Service Level</th>
-                                <th>Enclosed Transport</th>
-                                <th>Terms Agreed</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {boatLoads.map(load => (
-                                <tr key={load._id}>
-                                    <td>{load.boatType}</td>
-                                    <td>{load.boatModel}</td>
-                                    <td>{load.boatYear}</td>
-                                    <td>{load.boatColor}</td>
-                                    <td>{load.boatLicensePlate}</td>
-                                    <td>{load.boatVin}</td>
-                                    <td>{load.pickupLocation}</td>
-                                    <td>{load.deliveryLocation}</td>
-                                    <td>{load.isConvertible ? 'Yes' : 'No'}</td>
-                                    <td>{load.isModified ? 'Yes' : 'No'}</td>
-                                    <td>{load.isInoperable ? 'Yes' : 'No'}</td>
-                                    <td>{load.serviceLevel}</td>
-                                    <td>{load.enclosedTransport ? 'Yes' : 'No'}</td>
-                                    <td>{load.termsAgreed ? 'Yes' : 'No'}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            <tfoot className="footer-table">
-                            <tr>
-                                <td colSpan="16">
-                                    <div className="pagination-buttons-wrapper">
-                                        <button className="pagination-button-previous-next">Previous Page</button>
-                                        <button className="pagination-button"><p>1</p></button>
-                                        <button className="pagination-button"><p>2</p></button>
-                                        <button className="pagination-button"><p>3</p></button>
-                                        <button className="pagination-button"><p>4</p></button>
-                                        <button className="pagination-button"><p>5</p></button>
-                                        <button className="pagination-button-previous-next">Next Page</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div className="user-manage-table">
-                        <table className="rounded-table">
-                            <thead>
-                            <tr>
-                                <th>Equipment Type</th>
-                                <th>Equipment Model</th>
-                                <th>Equipment Year</th>
-                                <th>Equipment Color</th>
-                                <th>License Plate</th>
-                                <th>VIN</th>
-                                <th>Pickup Location</th>
-                                <th>Delivery Location</th>
-                                <th>Convertible</th>
-                                <th>Modified</th>
-                                <th>Inoperable</th>
-                                <th>Service Level</th>
-                                <th>Enclosed Transport</th>
-                                <th>Terms Agreed</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {constructionEquipmentLoads.map(load => (
-                                <tr key={load._id}>
-                                    <td>{load.equipmentType}</td>
-                                    <td>{load.equipmentModel}</td>
-                                    <td>{load.equipmentYear}</td>
-                                    <td>{load.equipmentColor}</td>
-                                    <td>{load.equipmentLicensePlate}</td>
-                                    <td>{load.equipmentVin}</td>
-                                    <td>{load.pickupLocation}</td>
-                                    <td>{load.deliveryLocation}</td>
-                                    <td>{load.isConvertible ? 'Yes' : 'No'}</td>
-                                    <td>{load.isModified ? 'Yes' : 'No'}</td>
-                                    <td>{load.isInoperable ? 'Yes' : 'No'}</td>
-                                    <td>{load.serviceLevel}</td>
-                                    <td>{load.enclosedTransport ? 'Yes' : 'No'}</td>
-                                    <td>{load.termsAgreed ? 'Yes' : 'No'}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            <tfoot className="footer-table">
-                            <tr>
-                                <td colSpan="16">
-                                    <div className="pagination-buttons-wrapper">
-                                        <button className="pagination-button-previous-next">Previous Page</button>
-                                        <button className="pagination-button"><p>1</p></button>
-                                        <button className="pagination-button"><p>2</p></button>
-                                        <button className="pagination-button"><p>3</p></button>
-                                        <button className="pagination-button"><p>4</p></button>
-                                        <button className="pagination-button"><p>5</p></button>
-                                        <button className="pagination-button-previous-next">Next Page</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div className="user-manage-table">
-                        <table className="rounded-table">
-                            <thead>
-                            <tr>
-                                <th>Make and Model</th>
-                                <th>Serial Number</th>
-                                <th>Weight</th>
-                                <th>Operator's Name</th>
-                                <th>Pickup Location</th>
-                                <th>Delivery Location</th>
-                                <th>Service Level</th>
-                                <th>Terms Agreed</th>
-                                <th>Delivery Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {heavyEquipmentLoads.map(load => (
-                                <tr key={load._id}>
-                                    <td>{load.makeAndModel}</td>
-                                    <td>{load.serialNumber}</td>
-                                    <td>{load.weight}</td>
-                                    <td>{load.operatorName}</td>
-                                    <td>{load.pickupLocation}</td>
-                                    <td>{load.deliveryLocation}</td>
-                                    <td>{load.serviceLevel}</td>
-                                    <td>{load.termsAgreed ? 'Yes' : 'No'}</td>
-                                    <td>{new Date(load.deliveryDate).toLocaleDateString()}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            <tfoot className="footer-table">
-                            <tr>
-                                <td colSpan="16">
-                                    <div className="pagination-buttons-wrapper">
-                                        <button className="pagination-button-previous-next">Previous Page</button>
-                                        <button className="pagination-button"><p>1</p></button>
-                                        <button className="pagination-button"><p>2</p></button>
-                                        <button className="pagination-button"><p>3</p></button>
-                                        <button className="pagination-button"><p>4</p></button>
-                                        <button className="pagination-button"><p>5</p></button>
-                                        <button className="pagination-button-previous-next">Next Page</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
                 </div>
-
             </div>
         </div>
     );

@@ -4572,6 +4572,7 @@ const JarvisChatPage = () => {
                 console.error('Error fetching chat sessions:', error);
             });
     }, [personalEndpoint]); // Dependency on personalEndpoint
+
     const handleDeleteAllChatSessions = () => {
         const confirmation = window.confirm('Are you sure you want to delete all chat sessions?');
         if (confirmation) {

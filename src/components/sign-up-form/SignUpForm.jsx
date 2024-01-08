@@ -5,6 +5,7 @@ import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import {GoogleLogin} from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
+import ReCAPTCHA from "react-google-recaptcha";
 
 function SignUpForm() {
     const [name, setName] = useState(null)
@@ -12,13 +13,22 @@ function SignUpForm() {
     const [phoneNumber, setPhoneNumber] = useState(null)
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
+    const [captchaValue, setCaptchaValue] = useState(null);
     const navigate = useNavigate()
+    const handleCaptchaChange = (value) => {
+        setCaptchaValue(value);
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!captchaValue) {
+            alert('Please complete the CAPTCHA');
+            return;
+        }
+
         axios.post('https://jarvis-ai-logistic-db-server.onrender.com/sign-up', {name, secondName, phoneNumber, email, password})
             .then(result => {
                 if (result.data.status === "Success") {
-                    // Redirect to the login form
                     navigate('/sign-in');
                 } else {
                     console.error('Registration failed:', result.data.message);
@@ -28,17 +38,27 @@ function SignUpForm() {
                 console.error('Error during registration:', err);
             });
     };
-
-
     const handleGoogleLoginSignUpSuccess = (credentialResponse) => {
         const credential = credentialResponse.credential;
-        const decoded = jwtDecode(credential);
 
         axios.post('https://jarvis-ai-logistic-db-server.onrender.com/google-login', {token: credential})
             .then(response => {
                 if (response.data.status === "Success") {
                     const personalEndpoint = response.data.user.personalEndpoint;
-                    navigate(`/jarvis-chat/${personalEndpoint}`);
+
+                    // Create a new chat session for the user
+                    axios.post('https://jarvis-ai-logistic-db-server.onrender.com/create-chat-session', { userEndpoint: personalEndpoint })
+                        .then(response => {
+                            if (response.data.status === "Success") {
+                                // Redirect to '/jarvis-chat' + personalEndpoint + chatEndpoint
+                                navigate(`/jarvis-chat/${personalEndpoint}/${response.data.chatEndpoint}`);
+                            } else {
+                                console.error('Error creating chat session:', response.data.message);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error during chat session creation:', err);
+                        });
                 } else {
                     console.error('Login failed:', response.data.message);
                 }
@@ -46,7 +66,6 @@ function SignUpForm() {
             .catch(error => {
                 console.error('Error during login:', error);
             });
-        console.log(decoded)
     };
     return (
         <div className="sign-in-wrapper">
@@ -102,6 +121,7 @@ function SignUpForm() {
                         required
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    <ReCAPTCHA className="recaptcha-checkbox" sitekey="6LcsaEgpAAAAADTbchGJZHFaS6EhEYjoBSd6Nwmd" onChange={handleCaptchaChange} />
                     <button type="submit" className="sign-up-button">SIGN UP</button>
 
                     <div className="question-div">
@@ -126,7 +146,5 @@ function SignUpForm() {
 
     )
 }
-
-/**/
 
 export default SignUpForm;

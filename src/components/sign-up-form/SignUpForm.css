@@ -131,6 +131,12 @@
     color: #595959;
 }
 
+.recaptcha-checkbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media only screen and (max-width: 694px) {
    .right-side{
       display: none;

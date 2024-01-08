@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Maven+Pro:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Maven+Pro:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 * {
     margin: 0;
@@ -146,7 +147,7 @@
     font-size: 1.2rem;
 }
 
-.label-title{
+.label-title {
     background: #727272;
     color: #a8a8a8;
     width: 150px;
@@ -154,7 +155,7 @@
     border-radius: 5px;
 }
 
-.label-variable{
+.label-variable {
     padding: 5px;
     background: #009879;
     text-align: center;
@@ -163,7 +164,7 @@
     width: 170px;
 }
 
-.label{
+.label {
     margin: 0;
 }
 
@@ -179,7 +180,7 @@
     border-top-right-radius: 15px;
 }
 
-.load-container-header h2{
+.load-container-header h2 {
     margin: 0 0 0 15px;
     color: #ffffff;
     font-size: 3rem;
@@ -200,7 +201,7 @@
     display: flex;
 }
 
-.load-container-body-opened{
+.load-container-body-opened {
     flex-wrap: wrap;
     position: relative;
     justify-content: space-between;
@@ -209,19 +210,260 @@
     display: flex;
 }
 
+.table-columns-titles {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0 0 0;
+}
 
-@media screen and (max-width: 768px) {
+.table-columns-titles p {
+    margin: 10px;
+    font-size: 1.2rem;
+    color: #e0e0e0;
+}
+
+.table-item {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    background-color: rgba(161, 161, 161, 0.4);
+    border-radius: 10px;
+}
+
+.table-item p {
+    margin: 10px;
+    font-size: 1.2rem;
+}
+
+
+.load-status-pending {
+    background-color: #cece19;
+    color: #686868;
+    padding: 3px;
+    border-radius: 5px;
+
+}
+
+.hide-details-button {
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    border-radius: 5px;
+    background-color: #707070;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-button {
+    transition: 0.3s ease-in-out;
+    border: none;
+    font-size: 1.2rem;
+    margin: 5px;
+
+}
+
+.dropdown-button:hover {
+    transition: 0.3s ease-in-out;
+    background-color: #494949;
+    color: white;
+    border-radius: 5px;
+}
+
+.dropdown-menu-buttons {
+    top: 40px;
+    right: 10px;
+    width: 120px;
+    position: absolute;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #414141;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    transition: 0.3s ease-in-out;
+}
+
+.modal {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    background-color: #2b2b2b;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+}
+
+
+.icon-a {
+    margin: 2px 0 0 2px;
+    color: #ffffff;
+    transition: 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+.load-details {
+    flex-wrap: wrap;
+    color: black;
+    margin: 20px;
+    right: 150px;
+    display: flex;
+    background-color: #686868;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.load-details label {
+    text-align: center;
+    width: 150px;
+    margin: 10px;
+    padding: 5px;
+    color: #e8e8e8;
+    border-radius: 5px;
+}
+
+.load-details label h2 {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.load-details label p {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    padding: 3px;
+    background-color: #d85c34;
+    border-radius: 5px;
+}
+
+.load-edit-form {
+    color: black;
+    margin: 20px;
+    right: 150px;
+    display: flex;
+    background-color: #686868;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.load-edit-form label {
+    text-align: center;
+    width: 150px;
+    margin: 10px;
+    padding: 5px;
+    color: #e8e8e8;
+    border-radius: 5px;
+}
+
+.edit-form-submit {
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #45a049;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s ease-in-out;
+}
+
+.edit-form-submit:hover {
+    background-color: #007706;
+    transition: 0.3s ease-in-out;
+}
+
+.edit-form-cancel {
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #bb0000;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s ease-in-out;
+}
+
+.edit-form-cancel:hover {
+    background-color: #9f0000;
+    transition: 0.3s ease-in-out;
+}
+
+
+.load-edit-form label {
+    background-color: rgba(77, 77, 77, 0.62);
+    text-align: left;
+    margin: 10px;
+    padding: 5px;
+    color: #e8e8e8;
+    border-radius: 5px;
+}
+
+.load-edit-form input {
+    border-radius: 5px;
+    border: 2px solid #0070ff;
+}
+
+.load-details p {
+    margin: 10px;
+    color: #e8e8e8;
+}
+
+.dropdown-menu-buttons a {
+    font-size: 1.2rem;
+    display: flex;
+    position: relative;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    list-style: none;
+    padding: 4px;
+    margin: 3px;
+    color: #ffffff;
+    transition: 0.3s ease-in-out;
+}
+
+.dropdown-menu-buttons a:hover {
+    background-color: #6c6c6c;
+    color: white;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 768px) {
     .admin-side-bar {
         z-index: 1000; /* High value to make it appear over other elements */
         position: fixed; /* Make it fixed to cover the whole screen */
     }
-    .fa-bars-icon-times-icon{
+
+    .fa-bars-icon-times-icon {
         position: absolute;
         padding: 0 10px 0 10px;
         margin: 10px 0 0 0;
         top: 10px;
     }
+
+    .admin-content-wrapper {
+        margin: 0;
+        height: 100vh;
+    }
+
+    .user-details-wrapper {
+        margin: 0 0 0 300px;
+    }
 }
+
 .load-container.expanded {
     transition: 0.5s ease-in-out;
     max-height: 1500px;
@@ -239,10 +481,12 @@
     height: 100vh;
 }
 
+
 .admin-inner-content-first {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap-reverse;
 
 }
 
@@ -287,8 +531,6 @@
     margin: 10px 0 0 0;
     top: 10px;
 }
-
-
 
 
 .data-operations-wrapper {
@@ -358,7 +600,6 @@
     padding: 0 5px 0 0;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Maven+Pro:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -371,12 +612,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
     border-radius: 50px;
     border: 2px solid #626262;
     max-width: 700px;
     width: 100%;
     height: 6vh;
+    font-weight: bold;
+    font-size: 1.2rem;
     color: white;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
     background-color: #2B2B2BFF;
@@ -385,7 +627,7 @@
 
 .search-input::placeholder {
     font-weight: 400;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
 }
 
 .search-icon {
@@ -400,6 +642,7 @@
     font-weight: 600;
     color: white;
     flex-grow: 1;
+    padding: 0;
     border: none;
     background-color: transparent;
     outline: none;
@@ -422,6 +665,7 @@
 
 .user-details-wrapper {
     display: flex;
+    justify-content: space-between;
 }
 
 .user-name {

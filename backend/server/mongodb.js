@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const shortid = require('shortid'); // Import the 'shortid' package
 const cors = require('cors');
+const router = express.Router();
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const UserModel = require('./models/User');
@@ -33,12 +34,43 @@ const MilitaryMoving = require('./models/MilitaryMoving');
 const CorporateMoving = require('./models/CorporateMoving');
 const StudentMoving = require('./models/StudentMoving');
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
-
 function generatePersonalEndpoint() {
     return shortid.generate();
+}
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'hauldepot@gmail.com',
+        pass: 'cdpntmwrxqkjdhta'
+    }
+});
+
+const mailOptions = {
+    from: 'hauldepot@gmail.com',
+    to: 'yaroslav7v@gmail.com',
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
+};
+
+function sendEmail(to, subject, text) {
+    const mailOptions = {
+        from: 'hauldepot@gmail.com',
+        to: to,
+        subject: subject,
+        text: text
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 }
 
 mongoose.connect('mongodb+srv://yaroslavdev:1234567890@haul-depot-db.7lk8rg9.mongodb.net/', {
@@ -90,6 +122,19 @@ app.get('/all-user-loads', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+router.put('/update-commercial-truck-load/:id', (req, res) => {
+    const id = req.params.id;
+    const updatedLoad = req.body;
+
+    CommercialTruckLoad.findByIdAndUpdate(id, updatedLoad, { new: true }, (error, load) => {
+        if (error) {
+            res.status(500).json({ error: 'There was an error updating the load.' });
+        } else {
+            res.status(200).json(load);
+        }
+    });
+});
+
 app.get('/schema-data/:schemaName', async (req, res) => {
     const { schemaName } = req.params;
 
@@ -516,6 +561,31 @@ app.get('/user/:personalEndpoint', (req, res) => {
         });
 });
 
+app.get('/user-by-email/:email', (req, res) => {
+    const { email } = req.params;
+
+    UserModel.findOne({ email: email })
+        .then(user => {
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message });
+        });
+});
+
+app.get('/all-users', async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Error fetching all users:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 app.get('/get-moto-equipment-loads', async (req, res) => {
     try {
@@ -719,11 +789,7 @@ app.post('/save-chat', (req, res) => {
 });
 app.post('/sign-up', (req, res) => {
     const { name, secondName, phoneNumber, email, password } = req.body;
-
-    // Generate a unique personal endpoint for the user
     const personalEndpoint = generatePersonalEndpoint();
-
-    // Create a new user document with the personal endpoint
     const newUser = new UserModel({
         name,
         secondName,
@@ -736,7 +802,8 @@ app.post('/sign-up', (req, res) => {
     newUser
         .save()
         .then(() => {
-            // Redirect the user to the login form after successful registration
+            // Send an email after successful registration
+            sendEmail(email, 'Welcome to Our Service', 'Thank you for signing up!');
             res.json({ status: 'Success', message: 'User registered successfully' });
         })
         .catch((err) => {
@@ -821,9 +888,21 @@ app.post('/google-login', async (req, res) => {
     }
 });
 
+app.delete('/delete-commercial-truck-load/:id', (req, res) => {
+    const id = req.params.id;
+
+    CommercialTruckLoad.findByIdAndRemove(id, (error, result) => {
+        if (error) {
+            res.status(500).json({ error: 'There was an error deleting the load.' });
+        } else {
+            res.status(200).json({ message: 'Load deleted successfully', result: result });
+        }
+    });
+});
 
 
 
+module.exports = router;
 
 app.listen(port, () => {
     console.log(`Server is up and running on port: ${port}`);

@@ -43,20 +43,36 @@ function LoginForm() {
     const handleGoogleLoginSuccess = (credentialResponse) => {
         const credential = credentialResponse.credential;
         const decoded = jwtDecode(credential);
+        const email = decoded.email; // Extract email from the decoded token
 
-        axios.post('https://jarvis-ai-logistic-db-server.onrender.com/google-login', {token: credential})
+        // First, fetch all users
+        axios.get('https://jarvis-ai-logistic-db-server.onrender.com/all-users')
             .then(response => {
-                if (response.data.status === "Success") {
-                    const personalEndpoint = response.data.user.personalEndpoint;
-                    navigate(`/jarvis-chat/${personalEndpoint}`);
+                // Filter the user with the given email
+                const user = response.data.find(user => user.email === email);
+
+                if (user) {
+                    // User exists, proceed with login
+                    axios.post('https://jarvis-ai-logistic-db-server.onrender.com/google-login', {token: credential})
+                        .then(response => {
+                            if (response.data.status === "Success") {
+                                const personalEndpoint = response.data.user.personalEndpoint;
+                                navigate(`/jarvis-chat/${personalEndpoint}/${response.data.chatEndpoint}`);
+                            } else {
+                                console.error('Login failed:', response.data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error during login:', error);
+                        });
                 } else {
-                    console.error('Login failed:', response.data.message);
+                    // User does not exist, handle accordingly
+                    console.error('User not found:', email);
                 }
             })
             .catch(error => {
-                console.error('Error during login:', error);
+                console.error('Error during user check:', error);
             });
-        console.log(decoded)
     };
 
 
